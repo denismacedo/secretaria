@@ -1,0 +1,17 @@
+
+Alterações da Versão 0.06 para 0.07
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+1. Acrescentado o Boleto do Banco Banestes
+
+2 . Incluido as variáveis (em todos os boletos):
+$dadosboleto["demonstrativo1"]
+$dadosboleto["demonstrativo2"]
+$dadosboleto["demonstrativo3"]
+
+3. Excluído as variáveis  (em todos os boletos):
+$dadosboleto["demonstrativo"]
+$dadosboleto["instrucoes"]
+
+Obs: A variável $dadosboleto["demonstrativo"] foi substituída pela $dadosboleto["demonstrativo1"]
+e a variável $dadosboleto["instrucoes"] foi substituída pela $dadosboleto["demonstrativo2"] 

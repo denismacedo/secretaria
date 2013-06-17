@@ -1,0 +1,73 @@
+A:visited {color: #0000ff}
+A:link {color: #0000ff}
+A:active {color: #ff0000}
+
+BODY { font-family: arial, verdana, helvetica; font-size: 8pt; scrollbar-face-color: #eeeeee;	scrollbar-arrow-color: #757575;	scrollbar-track-color: #FFFFFF;	scrollbar-shadow-color:#CECECE;	scrollbar-highlight-color:#FFFFFF;	scrollbar-3dlight-color: #CECECE; scrollbar-darkshadow-color:#FFFFFF; }
+
+INPUT {font-family: arial, verdana, helvetica; font-size: 8pt;text-transform:uppercase; border: 1px solid #999999;} 
+
+SELECT {font-family: arial, verdana, helvetica; font-size: 8pt;text-transform:uppercase; border: 1px solid #999999;} 
+
+TEXTAREA {font-family: courier, verdana, helvetica; font-size: 8pt;text-transform:uppercase; border: 1px solid #999999;} 
+
+ul {text-align: justify;}
+
+ol {text-align: justify;}		
+	
+.tituloheader {font-family: arial, verdana, helvetica; font-size: 20pt; color: #ffffff; font-weight: normal; text-decoration: none;}	
+.explicacao {font-family: arial, verdana, helvetica; font-size: 7.5pt; color: #666666; font-weight: normal; text-decoration: none;}	
+.txtRO {font-family: arial, verdana, helvetica; font-size: 8pt; background-color:#FFFF99;  color:#000099; } 
+.txtAUTO {font-family: arial, verdana, helvetica; font-size: 8pt; background-color:#F6F6F6;  color:#333; font-weight:bold; } 
+.txtNumero{font-family: arial, verdana, helvetica; font-size: 8pt; text-align:right; } 
+.txtNumeroRO {font-family: arial, verdana, helvetica; font-size: 8pt; background-color:#FFFF99;  color:#000099; text-align:right; } 
+.labelUsuario {font-family: arial, verdana, helvetica; font-size: 8pt; color: #ffff00; font-weight: bold; text-decoration: none;}
+.labelData {font-family: arial, verdana, helvetica; font-size: 7pt; color: #000000; font-weight: bold; text-decoration: none;}
+.labelTitRel {font-family: arial, verdana, helvetica; font-size: 12pt; color: #000000; font-weight: bold; text-decoration: none;}
+.labelColRel {font-family: arial, verdana, helvetica; font-size: 10pt; color: #000000; font-weight: bold; text-decoration: none;}
+.labelCurso {font-family: arial, verdana, helvetica; font-size: 10pt; color: #000000; font-weight: bold; text-decoration: none;}
+
+.link1 { color: #000099; font-size: 10px; font-family: Arial, Helvetica, sans-serif; text-decoration:none;   }
+.link1:hover { text-decoration: none; color: #009900}
+.tableHeader {
+	font-weight: bold;
+	background-color:#333333;
+	color: #FFFFFF;
+	font-size:13px;
+	padding:4px;
+}
+
+#tbCarrinho {
+	font-size:12px;
+}
+#tbCarrinho  thead{
+	font-size:13px;
+	font-weight: bold;
+}
+#tbCarrinho  thead td{
+	background-color: #f0f0ff;
+	height: 25px;
+	padding-left: 2px;
+}
+
+#tbCarrinho  tbody tr{
+	border-bottom: 1px solid #e0e0e0;
+}
+
+#tbCarrinho  tbody td{
+	background-color: #ffffff;
+	height: 25px;
+	padding-left: 2px;
+}
+
+#tbBtnPagar {
+	font-size:13px;
+	font-weight: bold;
+	background-color: #f0f0ff;
+	height: 25px;
+	padding-left: 2px;
+	text-decoration:none;
+}
+
+#tbBtnPagar a {
+	text-decoration:none;
+}

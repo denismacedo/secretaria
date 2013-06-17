@@ -1,0 +1,109 @@
+.qmclear {
+	CLEAR: left; DISPLAY: block; FONT-SIZE: 1px; WIDTH: 0px; LINE-HEIGHT: 0px; HEIGHT: 0px
+}
+.qmmc {
+	POSITION: relative
+}
+.qmmc A {
+	DISPLAY: block; FLOAT: left; WHITE-SPACE: nowrap
+}
+.qmmc DIV A {
+	FLOAT: none
+}
+.qmmc DIV {
+	VISIBILITY: hidden; POSITION: absolute
+}
+#qm0 {
+	BACKGROUND-IMAGE: url(/imagens/bg_menu.jpg)
+}
+#qm0 A {
+	BORDER-RIGHT: #364886 1px solid; PADDING-RIGHT: 40px; BORDER-TOP: #364886 1px solid; PADDING-LEFT: 8px; FONT-SIZE: 8pt; BACKGROUND-IMAGE: url(/imagens/bg_menu.jpg); PADDING-BOTTOM: 5px; BORDER-LEFT: #364886 1px solid; COLOR: #ffffff; PADDING-TOP: 5px; BORDER-BOTTOM: #364886 1px solid; FONT-FAMILY: Arial; TEXT-DECORATION: none
+}
+#qm0 A:hover {
+	COLOR: #000000; BACKGROUND-COLOR: #efefef
+}
+#qm0 .qmactive {
+	COLOR: #000000; BACKGROUND-COLOR: #efefef! important; TEXT-DECORATION: underline! important
+}
+#qm0 .qmparent {
+	BACKGROUND-POSITION: 95% 50%; BACKGROUND-IMAGE: url(imagens/arrow_down.gif); BACKGROUND-REPEAT: no-repeat
+}
+#qm0 DIV {
+	BORDER-RIGHT: #364886 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #364886 1px solid; MARGIN-TOP: -1px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #364886 1px solid; COLOR: #000000; PADDING-TOP: 5px; BORDER-BOTTOM: #364886 1px solid; BACKGROUND-COLOR: #efefef
+}
+#qm0 DIV A:hover {
+	TEXT-DECORATION: underline
+}
+#qm0 DIV .qmactive {
+	BACKGROUND-COLOR: #ffffff! important
+}
+#qm0 DIV .qmparent {
+	BACKGROUND-IMAGE: url(/imagens/bg_menu.jpg)
+}
+#qm0 DIV A {
+	BORDER-RIGHT: #000000 0px; PADDING-RIGHT: 40px; BORDER-TOP: #000000 0px; PADDING-LEFT: 5px; PADDING-BOTTOM: 2px; BORDER-LEFT: #000000 0px; COLOR: #000000; PADDING-TOP: 2px; BORDER-BOTTOM: #000000 0px; BACKGROUND-COLOR: #eeeeee
+}
+A:visited {
+	COLOR: #0000ff
+}
+A:link {
+	COLOR: #0000ff
+}
+A:active {
+	COLOR: #ff0000
+}
+BODY {
+	MARGIN: 0px
+	SCROLLBAR-FACE-COLOR: #eeeeee; FONT-SIZE: 8pt; SCROLLBAR-HIGHLIGHT-COLOR: #ffffff; SCROLLBAR-SHADOW-COLOR: #cecece; SCROLLBAR-3DLIGHT-COLOR: #cecece; SCROLLBAR-ARROW-COLOR: #757575; SCROLLBAR-TRACK-COLOR: #ffffff; FONT-FAMILY: arial, verdana, helvetica; SCROLLBAR-DARKSHADOW-COLOR: #ffffff
+}
+INPUT {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 8pt; TEXT-TRANSFORM: uppercase; BORDER-LEFT: #999999 1px solid; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: arial, verdana, helvetica
+}
+SELECT {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 8pt; TEXT-TRANSFORM: uppercase; BORDER-LEFT: #999999 1px solid; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: arial, verdana, helvetica
+}
+TEXTAREA {
+	BORDER-RIGHT: #999999 1px solid; BORDER-TOP: #999999 1px solid; FONT-SIZE: 8pt; TEXT-TRANSFORM: uppercase; BORDER-LEFT: #999999 1px solid; BORDER-BOTTOM: #999999 1px solid; FONT-FAMILY: courier, verdana, helvetica
+}
+OL {
+	TEXT-ALIGN: justify
+}
+.tituloheader {
+	FONT-WEIGHT: normal; FONT-SIZE: 20pt; COLOR: #ffffff; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.explicacao {
+	FONT-WEIGHT: normal; FONT-SIZE: 7.5pt; COLOR: #666666; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.txtRO {
+	FONT-SIZE: 8pt; COLOR: #000099; FONT-FAMILY: arial, verdana, helvetica; BACKGROUND-COLOR: #ffff99
+}
+.txt {
+	FONT-SIZE: 7pt; FONT-FAMILY: arial, verdana, helvetica; TEXT-ALIGN: justify; TEXT-DECORATION: none
+}
+.txtNumero {
+	FONT-SIZE: 8pt; FONT-FAMILY: arial, verdana, helvetica; TEXT-ALIGN: right
+}
+.txtNumeroRO {
+	FONT-SIZE: 8pt; COLOR: #000099; FONT-FAMILY: arial, verdana, helvetica; BACKGROUND-COLOR: #ffff99; TEXT-ALIGN: right
+}
+.labelUsuario {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #ffff00; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.labelData {
+	FONT-WEIGHT: bold; FONT-SIZE: 7pt; COLOR: #000000; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.labelTitRel {
+	FONT-WEIGHT: bold; FONT-SIZE: 12pt; COLOR: #000000; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.labelColRel {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.labelCurso {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #000000; FONT-FAMILY: arial, verdana, helvetica; TEXT-DECORATION: none
+}
+.link1 {
+	FONT-SIZE: 10px; COLOR: #000099; FONT-FAMILY: Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+.link1:hover {
+	COLOR: #009900; TEXT-DECORATION: none
+}
