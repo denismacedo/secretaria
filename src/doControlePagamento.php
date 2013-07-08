@@ -144,7 +144,19 @@ function corrigir() {
 
 	$boleto->corrigePagamento();
 
-	echo "Operação realizada com sucesso!";
+	//echo "Operação realizada com sucesso!";
+	$INFO_MSG = "Pagamento estornado!";
+	
+	//buscar();
+	
+	$nomePF = getPost("nomePF");
+	
+	$objInscricao = new classInscricao();
+	$resultado = $objInscricao->findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia);
+
+	include("controlePagamento.php");
+
+	
 }
 
 ?>

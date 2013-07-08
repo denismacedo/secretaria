@@ -729,6 +729,7 @@ function buildNomeCracha($nome, $apelido) {
 
 
 function printCrachaVarios() {
+	$codInscricao = getPost("codInscricao");
 	$situacao = getPost("situacao");
 	$participante = getPost("participante");
 	$conteudo = getPost("conteudo");
@@ -752,92 +753,113 @@ function printCrachaVarios() {
 				and a.pessoa_fisica = b.codigo 
 				and a.evento = d.evento
 				and a.ocorrencia = d.codigo
-				:nomePF :impressos :participante :idade :idIni :idFim :dataIni :dataFim";
+				:codInscricao :nomePF :impressos :participante :idade :idIni :idFim :dataIni :dataFim";
 		
-		if ($situacao != "" && $situacao != "T") {
-			if ($situacao == 'P') {
-				$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND c.pago = 'S') ", $sql);
-			} else if ($situacao == 'N') {
-				$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND (c.pago = 'N' OR c.pago is NULL) ) ", $sql);
-			}
-		} else {
-			$sql = str_replace(":joinBoleto", "", $sql);
-		}
-
-		if ($participante != "" && $participante != "T") {
-			if ($participante == 'B') {
-				$sql = str_replace(":participante", " AND a.flag_trabalhador = 'S' ", $sql);
-			} else if ($participante == 'C') {
-				$sql = str_replace(":participante", " AND (a.flag_trabalhador = 'N' OR a.flag_trabalhador is NULL) ", $sql);
-			}
-		} else {
-			$sql = str_replace(":participante", "", $sql);
-		}
-		
-		if ($nomePF != "") {
-			$sql = str_replace(":nomePF", " AND UPPER(b.nome) like UPPER('".$nomePF."%') ", $sql);
-		} else {
+		if ($codInscricao != "") {
 			$sql = str_replace(":nomePF", "", $sql);
-		}
-		
-		if ($impressos != "" && $impressos == 'N') {
-			$sql = str_replace(":impressos", " AND (a.cracha_impresso <> 'S' OR a.cracha_impresso is null) ", $sql);
-		} else {
 			$sql = str_replace(":impressos", "", $sql);
-		}
-		
-		if ($idade != "" && $idade != 'T') {
-			if ($idade == 'C') {
-				$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) < 12 ", $sql);
-			} else if ($idade == 'J') {
-				$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc))) >= 12 AND ((YEAR(b.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) < 14) ", $sql);
-			} else {
-				$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= 14 ", $sql);
-			}
-		} else {
+			$sql = str_replace(":participante", "", $sql);
 			$sql = str_replace(":idade", "", $sql);
-		}
-		
-		
-		if ($idadeIni != "") {
-			$sql = str_replace(":idIni", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= ".$idadeIni." ", $sql);
-		} else {
 			$sql = str_replace(":idIni", "", $sql);
-		}
-		if ($idadeFim != "") {
-			$sql = str_replace(":idFim", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) <= ".$idadeFim." ", $sql);
-		} else {
 			$sql = str_replace(":idFim", "", $sql);
-		}
-		
-		if ($dataIni != "") {
-			$sql = str_replace(":dataIni", " AND a.data_insercao >= '".getDBDate($dataIni)."' ", $sql);
-		} else {
 			$sql = str_replace(":dataIni", "", $sql);
-		}
-		if ($dataFim != "") {
-			$sql = str_replace(":dataFim", " AND a.data_insercao <= '".getDBDate($dataFim)."' ", $sql);
-		} else {
 			$sql = str_replace(":dataFim", "", $sql);
-		}
-		
-		if ($semCurso == "N" ) {
-		$sql = str_replace(":selCountCurso", " , count(pa.inscricao) ", $sql);
-		$sql = str_replace(":joinSemCurso", " INNER JOIN participante pa ON ( a.codigo = pa.inscricao ) INNER JOIN evento e ON (pa.evento = e.codigo and e.tipo_evento = 1) ", $sql);
-		} else {
 			$sql = str_replace(":selCountCurso", "", $sql);
+			$sql = str_replace(":joinBoleto", "", $sql);
 			$sql = str_replace(":joinSemCurso", "", $sql);
-		}
-		
-		$sql = $sql." group by a.codigo, a.nro_inscricao, b.codigo, b.nome, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais
-				:groupSemCurso
-				order by b.nome";
-
-				
-		if ($semCurso == "N" ) {
-			$sql = str_replace(":groupSemCurso", " having count(pa.inscricao) > 0 ", $sql);
+						
+			$sql = str_replace(":codInscricao", " AND a.nro_inscricao = $codInscricao", $sql);
+						
 		} else {
-			$sql = str_replace(":groupSemCurso", "", $sql);
+			
+			$sql = str_replace(":codInscricao", " ", $sql);
+			
+			if ($situacao != "" && $situacao != "T") {
+				if ($situacao == 'P') {
+					$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND c.pago = 'S') ", $sql);
+				} else if ($situacao == 'N') {
+					$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND (c.pago = 'N' OR c.pago is NULL) ) ", $sql);
+				}
+			} else {
+				$sql = str_replace(":joinBoleto", "", $sql);
+			}
+	
+			if ($participante != "" && $participante != "T") {
+				if ($participante == 'B') {
+					$sql = str_replace(":participante", " AND a.flag_trabalhador = 'S' ", $sql);
+				} else if ($participante == 'C') {
+					$sql = str_replace(":participante", " AND (a.flag_trabalhador = 'N' OR a.flag_trabalhador is NULL) ", $sql);
+				}
+			} else {
+				$sql = str_replace(":participante", "", $sql);
+			}
+			
+			if ($nomePF != "") {
+				$sql = str_replace(":nomePF", " AND UPPER(b.nome) like UPPER('".$nomePF."%') ", $sql);
+			} else {
+				$sql = str_replace(":nomePF", "", $sql);
+			}
+			
+			if ($impressos != "" && $impressos == 'N') {
+				$sql = str_replace(":impressos", " AND (a.cracha_impresso <> 'S' OR a.cracha_impresso is null) ", $sql);
+			} else {
+				$sql = str_replace(":impressos", "", $sql);
+			}
+			
+			if ($idade != "" && $idade != 'T') {
+				if ($idade == 'C') {
+					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) < 12 ", $sql);
+				} else if ($idade == 'J') {
+					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc))) >= 12 AND ((YEAR(b.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) < 14) ", $sql);
+				} else {
+					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= 14 ", $sql);
+				}
+			} else {
+				$sql = str_replace(":idade", "", $sql);
+			}
+			
+			
+			if ($idadeIni != "") {
+				$sql = str_replace(":idIni", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= ".$idadeIni." ", $sql);
+			} else {
+				$sql = str_replace(":idIni", "", $sql);
+			}
+			if ($idadeFim != "") {
+				$sql = str_replace(":idFim", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) <= ".$idadeFim." ", $sql);
+			} else {
+				$sql = str_replace(":idFim", "", $sql);
+			}
+			
+			if ($dataIni != "") {
+				$sql = str_replace(":dataIni", " AND a.data_insercao >= '".getDBDate($dataIni)."' ", $sql);
+			} else {
+				$sql = str_replace(":dataIni", "", $sql);
+			}
+			if ($dataFim != "") {
+				$sql = str_replace(":dataFim", " AND a.data_insercao <= '".getDBDate($dataFim)."' ", $sql);
+			} else {
+				$sql = str_replace(":dataFim", "", $sql);
+			}
+			
+			if ($semCurso == "N" ) {
+			$sql = str_replace(":selCountCurso", " , count(pa.inscricao) ", $sql);
+			$sql = str_replace(":joinSemCurso", " INNER JOIN participante pa ON ( a.codigo = pa.inscricao ) INNER JOIN evento e ON (pa.evento = e.codigo and e.tipo_evento = 1) ", $sql);
+			} else {
+				$sql = str_replace(":selCountCurso", "", $sql);
+				$sql = str_replace(":joinSemCurso", "", $sql);
+			}
+			
+			$sql = $sql." group by a.codigo, a.nro_inscricao, b.codigo, b.nome, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais
+					:groupSemCurso
+					order by b.nome";
+	
+					
+			if ($semCurso == "N" ) {
+				$sql = str_replace(":groupSemCurso", " having count(pa.inscricao) > 0 ", $sql);
+			} else {
+				$sql = str_replace(":groupSemCurso", "", $sql);
+			}
+		
 		}
 
 		

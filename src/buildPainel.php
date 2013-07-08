@@ -3,7 +3,7 @@ require_once('sql/conexao.php');
 
 require_once('util/http.php'); 
 require_once('util/comum.php'); 
-
+include("sessionValidate.php"); 
 header("Content-Type: text/html; charset=ISO-8859-1");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -32,7 +32,8 @@ and b.concafras_geradora = ".$_SESSION["EVENTO_SESSION"]."
 and b.evento = e.codigo
 and e.tipo_evento = 1
 group by e.qualif_evento, a.nome, a.capacidade
-order by e.qualif_evento, nome asc";
+order by nome asc";
+		
 		
 		$resultado = mysql_query($sql);
 		

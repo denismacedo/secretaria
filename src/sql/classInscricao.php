@@ -494,7 +494,7 @@ class classInscricao {
 	}
 	
 	public function findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia) {
-		$sql = "select i.nro_inscricao, pf.cidade, pf.unidade_da_federacao, pf.pais, pf.nome as nome_pf, b.nosso_nro, b.valor_pago, b.data_pago, b.pago
+		$sql = "select pf.codigo as cod_pf, i.nro_inscricao, pf.cidade, pf.unidade_da_federacao, pf.pais, pf.nome as nome_pf, b.nosso_nro, b.valor_pago, b.data_pago, b.pago
 			from pessoa_fisica pf, inscricao i LEFT OUTER JOIN boleto b ON (i.codigo = b.inscricao)
 			where i.evento = ".$evento." 
 			and i.ocorrencia = ".$ocorrencia." 
