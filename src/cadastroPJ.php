@@ -95,7 +95,7 @@
       <tr bgcolor="#F9F9F9">
 	  <td height="20">Telefone:</td>
 	  	<td>DDD:&nbsp;&nbsp;
-	  	  <input name="ddd" maxlength="2" size="4" value="<?php echo getAltPost(@$objPJ->ddd, 'ddd', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);">	  	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   N&uacute;mero: <input name="telefone" maxlength="8" size="10" value="<?php echo getAltPost(@$objPJ->telefone, 'telefone', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+	  	  <input name="ddd" maxlength="2" size="4" value="<?php echo getAltPost(@$objPJ->ddd, 'ddd', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);">	  	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   N&uacute;mero: <input name="telefone" maxlength="9" size="10" value="<?php echo getAltPost(@$objPJ->telefone, 'telefone', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
       </tr>
       <tr  bgcolor="#FFFFFF">
         <td height="20" >Possui CFAS: </td>

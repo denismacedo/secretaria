@@ -17,7 +17,10 @@ if ($metodo == "searchNomePFByNome") {
 } else if ($metodo == "searchPF") {
 	
 	searchPF();
+} else if ($metodo == "searchByCPF") {
 	
+	searchByCPF();
+		
 } else if ($metodo == "searchResponsavelByNome") {
 	
 	searchResponsavelByNome();
@@ -95,6 +98,27 @@ function searchPF() {
 }
 
 /**
+ * BUSCA OS DADOS DE UMA PESSOA POR UM CPF
+ */
+function searchByCPF() {
+
+	$cpf = getPost("cpf");
+	
+	if ($cpf != "") {
+		$objPF = new classPF();
+		//$objPF = $objPF->findByCodigo(1);
+		$objPF = $objPF->findByCPF($cpf);
+	}
+	
+	if ($objPF == "") {
+		$ERROR_MSG = "CADASTRO NAO ENCONTRADO";	
+	}
+
+	include("cadastroPF.php");
+
+}
+
+/**
  * EXIBE OS DADOS DE UMA PESSOA FISICA IDENTIFICADA PELO CODIGO INFORMADO
  */
 function exibeDadosPF($codigo) {
@@ -164,6 +188,7 @@ function searchCidadeByNome() {
 function salvar() {
 
 	$codigo = getPost("codigo");
+	$cpf = getPost("cpf");
 	$nome = retiraCaracteresEspeciais(getPost("nome"));
 	$apelido = retiraCaracteresEspeciais(getPost("apelido"));
 	$dataNasc = getPost("dataNasc");
@@ -178,6 +203,7 @@ function salvar() {
 	$violao = getPost("violao");
 	$profissao = getPost("profissao");
 	$dirigente = getPost("dirigente");
+	$vegetariano = getPost("vegetariano");
 	$codResponsavel = getPost("codResponsavel");
 	$codOrigem = getPost("codOrigem");
 	$ddd = getPost("ddd");
@@ -197,6 +223,7 @@ function salvar() {
 
 	$objPF = new classPF();
 	$objPF->codigo = $codigo;
+	$objPF->cpf = $cpf;
 	$objPF->nome = $nome;
 	$objPF->apelido = $apelido;
 	$objPF->data_nasc = $dataNasc;
@@ -210,6 +237,7 @@ function salvar() {
 	$objPF->email = $email;
 	$objPF->alegria_crista = $violao;
 	$objPF->dirigente_centro = $dirigente;
+	$objPF->vegetariano = $vegetariano;
 	$objPF->responsavel = $codResponsavel;
 	
 	// TRATA CIDADE

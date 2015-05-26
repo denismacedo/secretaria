@@ -75,21 +75,17 @@ $try = true;
 		?>
 		
 		
-		<!--<tr align="center" bgcolor="#f0f0f0">
-		  <td colspan="2" height="28">Clique no bot&atilde;o abaixo e gere o boleto para pagamento da inscri&ccedil;&atilde;o. </td>
-		  </tr>-->
-		<tr align="center" bgcolor="#f0f0f0">
-          <td colspan="2" height="40"><br />
-            <!--<input type="button" value="IMPRIMIR BOLETO" name="inscreveSub" onClick="submitBoleto();" style="font-size:14px; font-weight:bold; background-color:#00CC99; cursor:pointer;" title="Clique aqui para imprimir o boleto bancário">-->
+				<tr align="center" bgcolor="#f0f0f0">
+          <td colspan="2" height="40">
+          
+          <br />
+                      <br />
             <br />
-            <br />
+            
+            <!--<p align="center" style="font-size:18px;"><b>Aten&ccedil;&atilde;o:</b> A partir de hoje o pagamento dever&aacute; ser&aacute; realizado somente no dia do evento</p>-->
 			
 			<?php 
-				   
-				   $evento = $_SESSION["EVENTO_SESSION"];
-					$ocorrencia = $_SESSION["OCORRENCIA_SESSION"];
-				   
-				   if ($evento == 201256) {?>
+				   if (@$objCP->forma_pagamento == 'PAGSEGURO') {?>
 						<p align="center">Clique na imagem abaixo para efetuar pagamento utilizando boleto bancário, cartão de débito ou cartão de crédito</P>
 						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a></p>
 				   
@@ -97,16 +93,26 @@ $try = true;
 			<br/>
             <strong><br />
             Aten&ccedil;&atilde;o</strong>: A inscri&ccedil;&atilde;o ser&aacute; confirmada ap&oacute;s o recebimento do pagamento. N&atilde;o haver&aacute; devolu&ccedil;&atilde;o do pagamento em caso de desist&ecirc;ncia.<br />
-            <br /></td>
+            <br />
+            
+            
+            </td>
         </tr>
 		
 		<?php
 		
 		
-		} else if (@$objCP->conta_corrente != "") {
+		} 
+		
+		if (@$objCP->conta_corrente != "") {
 		
 		?>
 		
+		<tr align="center" bgcolor="#f0f0f0">
+          <td height="20" colspan="2" bgcolor="#F0f0f0" style="font-size:16px;">
+          Caso desejado, o valor da inscri&ccedil;&atilde;o poder&aacute; ser depositado em conta banc&aacute;ria conforme os dados abaixo:
+          </td>
+         </tr>
 		
 		   <tr align="center" bgcolor="#f0f0f0">
           <td height="20" colspan="2" bgcolor="#F0f0f0" style="font-size:14px;"><strong>Banco: <?php echo @$objCP->banco; ?></strong></td>
@@ -128,7 +134,7 @@ $try = true;
       
         
      
-				
+				<!--
         <tr align="center" bgcolor="#f0f0f0">
           <td height="20" colspan="2" bgcolor="#FFFFFF"><p><br />
               <strong>Valor da Inscri&ccedil;&atilde;o: </strong></p>
@@ -143,6 +149,7 @@ $try = true;
               </tr>
             </table></td>
         </tr>
+        -->
       </table>
 	  <p><br>
           <br>

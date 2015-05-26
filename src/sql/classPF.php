@@ -38,6 +38,8 @@ class classPF {
   public $telCom;
   public $objParticularidade;
   public $apelido;
+  public $cpf;
+  public $vegetariano;
 	
 	public function classPF() {
 		//construtor
@@ -87,7 +89,7 @@ class classPF {
 				usuario_atualizacao,
 				email,
 				tipo_pf,
-				apelido) VALUES (
+				apelido,cpf, vegetariano) VALUES (
 				".getNull($this->sexo).",
 				".getNull($this->rua_ou_quadra).",
 				".getNull($this->complemento_ou_conjunto).",
@@ -110,7 +112,10 @@ class classPF {
 				'1',
 				".getNull($this->email).",
 				1,
-				".getNull($this->apelido).")";
+				".getNull($this->apelido).",
+				".getNull($this->cpf).",
+				".getNull($this->vegetariano)."
+				)";
 		} else {
 		
 			$sql = "UPDATE pessoa_fisica SET 
@@ -131,6 +136,8 @@ class classPF {
 				pais=	".getNull($this->pais).",
 				email=	".getNull($this->email).",
 				apelido=	".getNull($this->apelido).",
+				cpf=	".getNull($this->cpf).",
+				vegetariano=	".getNull($this->vegetariano).",
 				data_atualizacao=	current_date
 				WHERE codigo = ".$this->codigo;
 		}
@@ -291,6 +298,25 @@ class classPF {
 		}
 		
 	}
+
+	public function findByCPF($cpf) {
+		
+		$query = "select codigo from pessoa_fisica where cpf = '".$cpf."'";
+
+		
+		$resultado = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
+		
+		if (mysql_num_rows($resultado) > 0) {
+		
+			return $this->findByCodigo(mysql_result($resultado,0,"codigo"));
+		
+		} else {
+		
+			return "";
+			
+		}
+	}
+
 	
 	public function findByCodigo($codigo) {
 		
@@ -311,7 +337,9 @@ class classPF {
 					p.pais, 
 					p.email ,
 					p.responsavel,
-					p.apelido
+					p.apelido,
+					p.cpf,
+					p.vegetariano
 					from pessoa_fisica p
 					where p.codigo = ".$codigo;
 
@@ -346,7 +374,8 @@ class classPF {
 			$objPF->responsavel = mysql_result($resultado,0,"responsavel");
 			
 			$objPF->apelido = mysql_result($resultado,0,"apelido");
-			
+			$objPF->cpf = mysql_result($resultado,0,"cpf");
+			$objPF->vegetariano = mysql_result($resultado,0,"vegetariano");			
 			
 			// RECUPERA OS DETALHES DA CIDADE
 			if (isset($objPF->cidade)) {

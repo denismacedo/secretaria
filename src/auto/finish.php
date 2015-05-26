@@ -68,11 +68,10 @@ body {
             <table width="100%" height="255" border="0" cellpadding="3" cellspacing="0">
               <tr>
                 <td align="center" valign="middle"><span class="style1">INSCRI&Ccedil;&Otilde;ES ONLINE ENCERRADAS! </span><br />
-                Voc&ecirc; pode realizar sua inscri&ccedil;&atilde;o atrav&eacute;s de contato telef&ocirc;nico ou por e-mail. <br />
                 <br />
-                SUA INSCRI&Ccedil;&Atilde;O TAMB&Eacute;M PODER&Aacute; SER REALIZADA NO PRIMEIRO DIA DA CONCAFRAS.
+                SE O EVENTO AINDA N&Atilde;O OCORREU, SUA INSCRI&Ccedil;&Atilde;O TAMB&Eacute;M PODER&Aacute; SER REALIZADA NO DIA.
                 <br/><br/><br/>
-                Se voc&ecirc; efeutou o pagamento nesta &uacute;ltima semana, ent&atilde;o lembre-se de levar o comprovante do mesmo para apresenta&ccedil;&atilde;o no ato do credenciamento do evento.
+                Se voc&ecirc; efetuou a colabora&ccedil;&atilde;o financeira nesta &uacute;ltima semana, ent&atilde;o lembre-se de levar o comprovante do mesmo para apresenta&ccedil;&atilde;o no ato do credenciamento do evento.
                 </td>
               </tr>
             </table>

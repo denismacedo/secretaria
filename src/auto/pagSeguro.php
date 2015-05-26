@@ -77,7 +77,7 @@ $ocorrencia = $_SESSION["OCORRENCIA_SESSION"];
 	// Adicionando um produto
 $pgs->adicionar(array(
   array(
-    "descricao"=>"Inscrição ".$_SESSION["NOME_EVENTO_SESSION"]." - ".$objPF->nome,
+    "descricao"=>"Inscrição ".$_SESSION["NOME_EVENTO_SESSION"]." - ".$objPF->nome." - ".$objInsc->nro_inscricao,
     "valor"=>$objBoleto->valor,
     "peso"=>0,
     "quantidade"=>1,

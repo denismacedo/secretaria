@@ -184,15 +184,15 @@ CONCAFRAS-PSE</strong></td>
 			 }
 		 ?>
          
-         <!-- <tr>
+         <tr>
         <td class="colTitulo" colspan="2">Situação da Inscrição:</td>
         </tr>
         <tr>
-  		<td class="colValueExpan" colspan="2"><?php /*echo ($objBoleto != NULL && $objBoleto->pago == "S" ? "CONFIRMADA EM ".formatDate($objBoleto->data_pago) : "PAGAMENTO PENDENTE");*/ ?></td>
+  		<td class="colValueExpan" colspan="2"><?php echo ($objBoleto != NULL && $objBoleto->pago == "S" ? "PAGAMENTO CONFIRMADO" : "PAGAMENTO PENDENTE"); ?></td>
         </tr>
-        -->
+        
         <tr>
-        	<td colspan="2" align="center"><br><br>A inscrição somente é confirmada mediante confirmação do pagamento. Entre em contato com a secretaria da CONCAFRAS-PSE para obter mais informações.</td>
+        	<td colspan="2" align="center"><br><br>A inscrição somente é válida mediante confirmação do pagamento. Entre em contato com a secretaria da CONCAFRAS-PSE para obter mais informações.</td>
         </tr>
         
   </table>

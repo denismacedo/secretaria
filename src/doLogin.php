@@ -45,12 +45,12 @@ include("sql/classUsuarioOcorrencia.php");
 					$OCORRENCIA_SESSION = mysql_result($resultado, 0, 1);
 					
 					// REGISTRA A SESSAO
-					session_register($EVENTO_SESSION);
-					session_register($OCORRENCIA_SESSION);
-					session_register($NOME_EVENTO_SESSION);
-					$_SESSION["NOME_EVENTO_SESSION"] = $NOME_EVENTO_SESSION;
-					$_SESSION["EVENTO_SESSION"] = $EVENTO_SESSION;
-					$_SESSION["OCORRENCIA_SESSION"] = $OCORRENCIA_SESSION;
+					//session_register($EVENTO_SESSION);
+					//session_register($OCORRENCIA_SESSION);
+					//session_register($NOME_EVENTO_SESSION);
+					$_SESSION['NOME_EVENTO_SESSION'] = $NOME_EVENTO_SESSION;
+					$_SESSION['EVENTO_SESSION'] = $EVENTO_SESSION;
+					$_SESSION['OCORRENCIA_SESSION'] = $OCORRENCIA_SESSION;
 					
 					$loginOK = true;
 					
@@ -69,9 +69,9 @@ include("sql/classUsuarioOcorrencia.php");
 			
 			if ($loginOK) {
 				// REGISTRA A SESSAO DO USUARIO
-				session_register($USER_SESSION);
+				//session_register($USER_SESSION);
 				
-				$_SESSION["USER_SESSION"] = $USER_SESSION;
+				$_SESSION['USER_SESSION'] = $USER_SESSION;
 				
 				// REDIRECIONA PARA PAGINA DE ENTRADA
 				header("Location: index.php");

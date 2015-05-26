@@ -2,12 +2,18 @@
 require_once("../util/comum.php"); 
 require_once("../util/http.php"); 
 
-$fim = mktime (0, 0, 0, "02"  , "06", "2013");
+$fim = mktime (0, 0, 0, "02"  , "09", "2015");
 $agora = mktime (date("H"), date("i"), date("s"), date("m")  , date("d"), date("Y"));
 
-if ($agora > $fim) {
-//	header("Location: finish.php");
+if (($agora > $fim && $_GET["evento"]== "202491")) {
+header("Location: finish.php");
 }
+
+//echo "evento: (".$_GET["evento"].")";
+
+//if ($_GET["evento"]== "202948" || $_GET["evento"]== "202824") {
+//	header("Location: finish.php");	
+//}
 
 ?>
 

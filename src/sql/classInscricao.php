@@ -19,7 +19,8 @@ class classInscricao {
   public $temaEspecifico2;
   public $temaEspecifico3;
   public $usuario_insercao;
-  public $cracha_impresso;  
+  public $cracha_impresso; 
+  public $idioma_tema_central;
 
 	
 	public function classInscricao() {
@@ -65,6 +66,7 @@ class classInscricao {
 					tipo_alojamento,
 					flag_trabalhador,
 					nro_inscricao,
+					idioma_tema_central,
 					flag_presente) VALUES (
 				".getNullNumber($this->evento).",
 				".getNullNumber($this->ocorrencia).",
@@ -75,12 +77,14 @@ class classInscricao {
 				".getNull($this->tipo_alojamento).",
 				".getNull($this->flag_trabalhador).",
 				".getNullNumber($this->nro_inscricao).",
+				".getNull($this->idioma_tema_central).",				
 				".getNull($this->flag_presente).")";
 		} else {
 		
 			$sql = "UPDATE inscricao SET 
 				tipo_alojamento = ".getNull($this->tipo_alojamento).",
 				flag_trabalhador =	".getNull($this->flag_trabalhador).",
+				idioma_tema_central =	".getNull($this->idioma_tema_central).",				
 				data_atualizacao = current_date
 				WHERE codigo = ".$this->codigo;
 				
@@ -334,7 +338,7 @@ class classInscricao {
 	
 	public function findInscricaoByPFEvento($codPF, $ocorrencia, $evento) {
 		$query = "select a.evento, a.ocorrencia, a.pessoa_fisica, a.codigo, a.data_insercao, a.tipo_alojamento, 			
-				a.flag_trabalhador, a.nro_inscricao, a.flag_presente
+				a.flag_trabalhador, a.nro_inscricao, a.flag_presente, a.idioma_tema_central
 				from inscricao a
 				where a.ocorrencia = ".$ocorrencia." and a.evento = ".$evento."
 				and a.pessoa_fisica = ".$codPF;
@@ -349,7 +353,7 @@ class classInscricao {
 	
 	public function findInscricaoByCodigo($codInscricao) {
 		$query = "select a.evento, a.ocorrencia, a.pessoa_fisica, a.codigo, a.data_insercao, a.tipo_alojamento, 			
-				a.flag_trabalhador, a.nro_inscricao, a.flag_presente
+				a.flag_trabalhador, a.nro_inscricao, a.flag_presente, a.idioma_tema_central
 				from inscricao a
 				where a.codigo = ".$codInscricao;
 						
@@ -372,6 +376,7 @@ class classInscricao {
 			$objInsc->flag_trabalhador = mysql_result($result, 0, "flag_trabalhador");
 			$objInsc->nro_inscricao = mysql_result($result, 0, "nro_inscricao");
 			$objInsc->flag_presente = mysql_result($result, 0, "flag_presente");
+			$objInsc->idioma_tema_central = mysql_result($result, 0, "idioma_tema_central");
 		
 			return $objInsc;
 		} else {
@@ -440,7 +445,7 @@ class classInscricao {
 				and a.evento = c.evento
 				and a.sub_ocorrencia = c.codigo
 				and a.evento = b.codigo
-				order by c.nome";
+				order by c.nome desc";
 		$result = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		
 		return $result;

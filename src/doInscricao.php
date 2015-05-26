@@ -7,6 +7,7 @@ require_once('util/comum.php');
 
 require_once("sql/classPF.php"); 
 require_once("sql/classOcorrencia.php"); 
+require_once("sql/classEvento.php"); 
 require_once("sql/classInscricao.php"); 
 require_once("sql/classTipoAlojamento.php"); 
 require_once("sql/classParticipante.php"); 
@@ -70,6 +71,10 @@ function exibeTelaInscricao($tipoMsg, $msg) {
 	$objPF = new classPF();
 	$objPF = $objPF->findByCodigo($codPF);
 	
+	// Instancia o objeto evento
+	$objEvento = new classEvento();
+	$objEvento = $objEvento->findByCodigo($_SESSION["EVENTO_SESSION"]);
+
 	// Instancia o objeto ocorrencia para pegar a data de inicio do evento
 	$objOcorrencia = new classOcorrencia();
 	$objOcorrencia = $objOcorrencia->findByCodigo($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
@@ -105,6 +110,30 @@ function exibeTelaInscricao($tipoMsg, $msg) {
 		}
 		$selectTipoAlojamento .= "</select>";
 		
+		
+		// MONTA OPCOES DE IDIOMA PARA CONCAFRAS MUNDIAL
+		if ($objEvento->tipoEvento == 11) {
+			$arrayTemas = array("PORTUGUES", "ESPANHOL", "INGLES", "FRANCES", "ESPERANTO");
+			
+			// MONTA AS OPCOES DE TEMA
+			$selectIdioma = "<select name='idioma' id='idioma'></option>";
+			$countTemas = count($arrayTemas);
+
+			for ($i = 0; $i < $countTemas; $i++) {
+				$strSel = "";
+				
+				if (isset($objInscricao) && $objInscricao != NULL) {
+					
+					if ($objInscricao->idioma_tema_central == $arrayTemas[$i]) {
+						$strSel = "SELECTED";
+					}
+				}
+				//echo $arrayTemas($i);
+				$selectIdioma .= "<option value='".$arrayTemas[$i]."' ".$strSel.">".$arrayTemas[$i]."</option>";
+			}
+			
+			$selectIdioma .= "</select>";
+		}
 		
 		// PARTICIPANTES
 		if (isset($objInscricao)) {
@@ -362,6 +391,7 @@ function salvaInscricao() {
 	$codInscricao = getPost("codInscricao");
 	$nroInscricao = getPost("nroInscricao");
 	$tipoAlojamento = getPost("tipoAlojamento");
+	$idioma = getPost("idioma");
 	$flag_trabalhador = getPost("flag_trabalhador");
 	$comissoes = getPost("comissoes");
 	$temasAtuaisOp1 = getPost("temasAtuaisOp1");
@@ -376,6 +406,7 @@ function salvaInscricao() {
 	$objInscricao->pessoa_fisica = $codPF;
 	$objInscricao->nro_inscricao = $nroInscricao;
 	$objInscricao->tipo_alojamento = $tipoAlojamento;
+	$objInscricao->idioma_tema_central = $idioma;
 	$objInscricao->flag_trabalhador = $flag_trabalhador;
 	$objInscricao->comissao = $comissoes;
 	$objInscricao->temaAtual1 = $temasAtuaisOp1;
