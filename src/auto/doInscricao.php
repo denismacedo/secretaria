@@ -91,6 +91,10 @@ if ($metodo == "init") {
 } else if ($metodo == "pagSeguro") {
 
 	pagSeguro();
+
+} else if ($metodo == "paypal") {
+
+	payPal();
 }
 
 
@@ -1103,6 +1107,65 @@ function pagSeguro() {
 
 		include("pagSeguro.php");
 
+}
+
+
+function payPal() {
+
+	$objOco = new classOcorrencia();
+	$objOco = $objOco->findByCodigo($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
+
+	$objCP = new classConfiguracaoPagamento();
+	$objCP = $objCP->findByEventoOcorrencia($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
+
+	$codInscricao = getPost("codInscricao");
+	
+	$objInsc = new classInscricao();
+	$objInsc = $objInsc->findInscricaoByCodigo($codInscricao);
+	
+	$objPF = new classPF();
+	$objPF = $objPF->findByCodigo($objInsc->pessoa_fisica);
+	
+	$staticBoleto = new classBoleto();
+	$objBoleto = $staticBoleto->findByInscricao($codInscricao);
+
+
+	if ($objBoleto == NULL) {
+	
+		// GERA O BOLETO
+		$objBoleto = new classBoleto();
+		$objBoleto->inscricao = $codInscricao;
+		
+		//echo dateDiff($objPF->data_nasc, $objOco->inicio)."<br>";
+
+		if (dateDiff($objPF->data_nasc, $objOco->inicio) >= 12) {
+			$objBoleto->valor = $objCP->valor_adulto;
+		} else {
+			$objBoleto->valor = $objCP->valor_crianca;
+			$crianca = true;
+		}
+		
+		$objBoleto->nosso_nro = $objCP->ocorrencia.date("y").formatNumber($objInsc->nro_inscricao, 5);
+		
+		$objBoleto = $objBoleto->save();
+	} else {
+		if (dateDiffDias(date("Y-m-d"), $objBoleto->data_vencimento) < 1) {
+			$objBoleto = $objBoleto->atualizaDataVencimento();
+		}
+	}
+	
+	if ($objPF->responsavel != "") {
+		$objResponsavel = $objPF->findByCodigo($objPF->responsavel);
+		
+		$objBoleto->sacado = $objResponsavel->nome;
+		
+	} else {
+	
+		$objBoleto->sacado = $objPF->nome;
+		
+	}
+
+		include("payPal.php");
 }
 
 

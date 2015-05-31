@@ -87,9 +87,20 @@ $try = true;
 			<?php 
 				   if (@$objCP->forma_pagamento == 'PAGSEGURO') {?>
 						<p align="center">Clique na imagem abaixo para efetuar pagamento utilizando boleto bancário, cartão de débito ou cartão de crédito</P>
-						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a></p>
+						<p align="center"><a href="#" style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a>
+						
+						<?php
+						if ($_SESSION["EVENTO_SESSION"] == "203273") { // TODO: remover hardcode
+						?>
+						<a href="#" style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=paypal'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PayPal" target="_blank"><img src="imagens/205x30-paypal.png"></a>
+						<?php
+				         }
+						?>
+						</p>
+				   <?php 
+				   }
 				   
-				   <?php } ?>
+				   ?>
 			<br/>
             <strong><br />
             Aten&ccedil;&atilde;o</strong>: A inscri&ccedil;&atilde;o ser&aacute; confirmada ap&oacute;s o recebimento do pagamento. N&atilde;o haver&aacute; devolu&ccedil;&atilde;o do pagamento em caso de desist&ecirc;ncia.<br />
