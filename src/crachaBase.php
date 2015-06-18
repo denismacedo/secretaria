@@ -1,4 +1,4 @@
-<table cellpadding="0" cellspacing="2" align="center">
+<table cellpadding="0" cellspacing="0" align="center">
 	<tr>
 	
 		<td align="center" style="font-size: <?php echo $objCracha->fonte_nome; ?>px">

@@ -26,7 +26,22 @@
 			  
 			  ?>			</td>
 		</tr>
-        <tr bgColor=#f6f6f6>
+		<?php
+		if ($objEvento->tipoEvento == 11) {
+			?>
+        <tr bgColor="#f6f6f6">
+          <td width="97" bgcolor="#ffffff"><b>Idioma Tema Central: </b></td>
+          <td width="462" bgcolor="#ffffff">
+		      <?php
+			  
+			  if (isset($selectIdioma) && $selectIdioma != "") {
+			  	echo $selectIdioma;
+			  }
+			  
+			  ?>			</td>
+		</tr>
+		<?php } ?>
+        <tr bgColor=#f9f9f9>
           <td vAlign="center" bgcolor="#F9f9f9">
 		    <strong>Trabalhador: &nbsp;</strong></td>
 		  <td bgcolor="#F9f9f9">

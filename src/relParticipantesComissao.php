@@ -7,24 +7,24 @@ include("headerRel.php");
 	<td>
 	<table align="center" width="100%">
 		<tbody><tr>
-		  <td colspan="5" class="labelTitRel" align="center" height="30">
+		  <td colspan="6" class="labelTitRel" align="center" height="30"> 
 		  	<?php echo $_SESSION["NOME_EVENTO_SESSION"]; ?>		  </td>
 	    </tr>
 		<tr>
-			<td colspan="5" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">RELA&Ccedil;&Atilde;O  DE PARTICIPANTES POR COMISS&Atilde;O</span></td>
+			<td colspan="6" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">RELA&Ccedil;&Atilde;O  DE PARTICIPANTES POR COMISS&Atilde;O</span></td>
 		</tr>
   <tr>
-  	<td colspan="5" align="center">
+  	<td colspan="6" align="center">
   		<img src="imagens/barra_rel.jpg">  	</td>
   </tr><tr class="labelColRel" bgcolor="#cccccc">
-			<td height="30" colspan="5" class="labelColRel">COMISS&Atilde;O</td>
+			<td height="30" colspan="6" class="labelColRel">COMISS&Atilde;O</td>
 			</tr>
 
   
   <?php 
-		
-		$sql = "select b.evento, b.codigo, b.nome, pf.nome as nome_pf, pf.email, pf.cidade, pf.unidade_da_federacao as estado, pf.pais
-				from sub_ocorrencia a, participante p, inscricao i, pessoa_fisica pf, ocorrencia b, evento e
+				
+		$sql = "select b.evento, b.codigo, b.nome, pf.nome as nome_pf, pf.email, pf.cidade, pf.unidade_da_federacao as estado, pf.pais, c.pago 
+				from sub_ocorrencia a, participante p, inscricao i, pessoa_fisica pf, ocorrencia b, evento e, boleto c 
 				where a.ocorrencia = b.codigo and a.evento = b.evento 
 				and b.ocorrencia_geradora = ".$_SESSION["OCORRENCIA_SESSION"]." 
 				and b.concafras_geradora = ".$_SESSION["EVENTO_SESSION"]." 
@@ -33,9 +33,9 @@ include("headerRel.php");
 				and a.evento = p.evento and a.ocorrencia = p.ocorrencia and a.codigo = p.sub_ocorrencia 
 				and p.inscricao = i.codigo
 				and i.pessoa_fisica = pf.codigo
+				and p.inscricao = c.inscricao
 				order by b.nome, pf.nome";
 				
-
 		$resultado = mysql_query($sql);
 		
 		$totalPart = 0;
@@ -57,7 +57,7 @@ include("headerRel.php");
 				
 					?>
 						<tr bgcolor="#d0d0d0">
-							<td height="30" colspan="5"><b>&nbsp;<?php echo mysql_result($resultado, $i, "nome"); ?></b></td>
+							<td height="30" colspan="6"><b>&nbsp;<?php echo mysql_result($resultado, $i, "nome"); ?></b></td>
 						</tr>
 					<?php
 				
@@ -78,6 +78,7 @@ include("headerRel.php");
 							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "cidade"); ?></td>
 							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "estado"); ?></td>
 							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "pais"); ?></td>
+							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "pago"); ?></td>
 						</tr>
 					<?php
 			}
@@ -86,7 +87,7 @@ include("headerRel.php");
 ?>
 			
 				<tr bgcolor="#cccccc">
-					<td colspan="5">
+					<td colspan="6">
 						<table width="100%">
 							<tbody><tr>
 								<td class="labelColRel" align="left" height="5">

@@ -21,11 +21,12 @@ include("headerRel.php");
 			<td height="30" width="30%" class="labelColRel"><span style="font-weight: bold;">NOME</span></td>
 			<td height="30" width="20%" class="labelColRel"><span style="font-weight: bold;">CIDADE</span></td>
 			<td height="30" width="5%" class="labelColRel" align="center"><span style="font-weight: bold;">IDADE (anos)</span></td>
+			<td height="30" width="5%" class="labelColRel" align="center"><span style="font-weight: bold;">Pago</span></td>             
 			</tr>
 <?php 
 		
-		$sql = "select b.evento, b.codigo, b.nome, e.qualif_evento, pf.nome as nome_pf, ((YEAR(x.inicio)-YEAR(pf.data_nasc)) - (RIGHT(x.inicio,5)<RIGHT(pf.data_nasc,5))) as idade, pf.cidade, pf.unidade_da_federacao
-				from sub_ocorrencia a, participante p, inscricao i, pessoa_fisica pf, ocorrencia b, evento e, ocorrencia x
+		$sql = "select b.evento, b.codigo, b.nome, e.qualif_evento, pf.nome as nome_pf, ((YEAR(x.inicio)-YEAR(pf.data_nasc)) - (RIGHT(x.inicio,5)<RIGHT(pf.data_nasc,5))) as idade, pf.cidade, pf.unidade_da_federacao, c.pago
+				from sub_ocorrencia a, participante p, inscricao i, pessoa_fisica pf, ocorrencia b, evento e, ocorrencia x, boleto c
 				where a.ocorrencia = b.codigo and a.evento = b.evento 
 				and b.ocorrencia_geradora = ".$_SESSION["OCORRENCIA_SESSION"]." 
 				and b.concafras_geradora = ".$_SESSION["EVENTO_SESSION"]." 
@@ -36,6 +37,7 @@ include("headerRel.php");
 				and a.evento = p.evento and a.ocorrencia = p.ocorrencia and a.codigo = p.sub_ocorrencia 
 				and p.inscricao = i.codigo
 				and i.pessoa_fisica = pf.codigo
+				and p.inscricao = c.inscricao
 				order by e.qualif_evento, b.nome, pf.nome";
 		
 		$resultado = mysql_query($sql);
@@ -91,6 +93,7 @@ include("headerRel.php");
 							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "nome_pf"); ?></td>
 							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "cidade")." - ".mysql_result($resultado, $i, "unidade_da_federacao"); ?></td>
 							<td height="30" width="50px" align="center">&nbsp;<?php echo mysql_result($resultado, $i, "idade"); ?></td>
+                            							<td height="30" width="50px" align="center">&nbsp;<?php echo mysql_result($resultado, $i, "pago"); ?></td>
 						</tr>
 					<?php
 			}

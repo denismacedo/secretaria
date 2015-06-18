@@ -98,11 +98,11 @@ body {
 	<ul>
 	<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
     	<li><a href="doConfiguracaoCracha.php?method=init">Configurar Crach&aacute;</a></li>
-		<?php }?>
-    	<li><a href="doEvento.php?method=init">Eventos</a></li>
-		<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
     	<li><a href="doTemas.php?method=init">Cursos/Temas</a></li>
     	<li><a href="doBackup.php?method=init">Gerar arquivo de inscri&ccedil;&otilde;es</a></li>
+		<?php }?>
+		<?php if (isset($_SESSION["USER_SESSION"]) && $_SESSION["USER_SESSION"] == "ADMIN") {?>
+    	<li><a href="doEvento.php?method=init">Eventos</a></li>
 		<?php }?>
     	<!--<li><a href="doEnsalamento.php?method=init">Ensalamento</a></li>-->
     </ul>
@@ -125,6 +125,7 @@ body {
 <li style="border-left: 1px solid #003366;"><a href="#">Relat&oacute;rios</a>
 	<ul>
     	<li><a href="paramRelInscritos.php">Rela&ccedil;&atilde;o Completa de Inscritos</a></li>
+    	<li><a href="doRelatorio.php?method=celularInscritos">Rela&ccedil;&atilde;o de Celulares e E-mails</a></li>
     	<li><a href="doRelatorio.php?method=inscricoesPagas">Rela&ccedil;&atilde;o Completa de Inscri&ccedil;&otilde;es Pagas</a></li>
     	<li><a href="doRelatorio.php?method=inscritosInternet">Rela&ccedil;&atilde;o de Inscritos Pela Internet</a></li>
     	<li><a href="doRelatorio.php?method=inscritosSemCurso">Rela&ccedil;&atilde;o de Inscritos Sem Curso</a></li>

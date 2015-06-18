@@ -1,7 +1,7 @@
 <?php 
 	session_start();
 	
-	include('biblioteca_pagseguro_v0.22/pgs.php');
+	include('biblioteca_paypal/pgs.php');
 
 
 //$_SESSION['pgs'] = NULL;

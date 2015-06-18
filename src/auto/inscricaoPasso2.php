@@ -37,8 +37,8 @@ $try = true;
           <td colspan="2" height="20" style="font-size:12px;" align="center"><br />
             <p align="center"><strong><span style="color:#009933; font-size:16px;">Dados enviados com sucesso!</span></strong></p>
 
-            Para continuar sua inscri&ccedil;&atilde;o, escolha o alojamento, os cursos<br />
- e a comiss&atilde;o de trabalho (caso seja um colaborador da CONCAFRAS)</strong><br />
+            Para continuar sua inscri&ccedil;&atilde;o, escolha o alojamento, os temas<br />
+ e a comiss&atilde;o de trabalho (caso seja um colaborador do evento)</strong><br />
             <br /></td>
         </tr>
        
@@ -66,6 +66,18 @@ $try = true;
 			  
 			  ?>			</td>
 		</tr>
+		<?php if (isset($selectIdioma) && $selectIdioma != "") {?>
+        <tr bgColor="#f9f9f9">
+          <td width="97" height="28" bgcolor="#ffffff"><b>Idioma Tema Central: </b></td>
+          <td width="462" height="28" bgcolor="#ffffff">
+		      <?php
+			     echo $selectIdioma;
+			 
+			  ?>			</td>
+		</tr>
+		
+		<?php } ?>
+		
         <tr bgColor=#f6f6f6>
           <td height="28" valign="middle" bgcolor="#F9f9f9">
 		    <strong>Trabalhador: </strong></td>

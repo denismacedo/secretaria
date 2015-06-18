@@ -6,7 +6,8 @@ $try = true;
 
 ?>
 
-<script language="javascript" type="text/javascript" src="../js/auto/inscricao.js"></script><form name="inscricaoForm" action="doInscricao.php?method=buscaInscricao" method="post">
+<script language="javascript" type="text/javascript" src="../js/auto/inscricao.js"></script>
+<form name="inscricaoForm" action="doInscricao.php?method=buscaInscricao" method="post">
  <input name="codPF" id="codPF" value="<?php echo getAltPost(@$objInscricao->pessoa_fisica, 'codPF', true); ?>" type="hidden">
  <input name="codInscricao" id="codInscricao" value="<?php echo getAltPost(@$objInscricao->codigo, 'codInscricao', true); ?>" type="hidden">
  <input type="hidden" name="paginaRetorno" id="paginaRetorno" value="reimprimeBoletoPasso1.php" />
@@ -51,7 +52,7 @@ $try = true;
 	   
 	   
         <tr align="center" bgcolor="#f0f0f0">
-          <td colspan="2" height="40"><input type="submit" value="VERIFICAR INSCRI&Ccedil;&Atilde;O" name="inscreveSub" ></td>
+          <td colspan="2" height="40"><input type="submit" value="VERIFICAR INSCRI&Ccedil;&Atilde;O" name="inscreveSub" onclick="document.forms[0].action='doInscricao.php?method=buscaInscricao';" ></td>
         </tr>
 		
 		<?php
@@ -70,13 +71,24 @@ $try = true;
                       <input type="button" value="VISUALIZAR FICHA DE INSCRIÇÃO" name="inscreveSub" onClick="document.forms[0].action='doInscricao.php?method=verFichaInscricao'; document.forms[0].submit();">
 				      </p>
 			       <p>&nbsp;</p>
-				   <?php 
-				   
-				   $evento = $_SESSION["EVENTO_SESSION"];
-					$ocorrencia = $_SESSION["OCORRENCIA_SESSION"];
-				   ?>
+			       <!--
+			       <p align="center" style="font-size:18px;"><b>Aten&ccedil;&atilde;o:</b> A partir de hoje o pagamento dever&aacute; ser&aacute; realizado somente no dia do evento</p>-->
+			       
+			       
+			       
 						<p align="center">Clique na imagem abaixo para efetuar pagamento utilizando boleto bancário, cartão de crédito ou cartão de crédito</P>
-						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a></p>
+						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a>
+						
+						<?php
+						if ($_SESSION["EVENTO_SESSION"] == "203273") { // TODO: remover hardcode
+						?>
+						<a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=paypal'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PayPal" target="_blank"><img src="imagens/205x30-paypal.png"></a>
+						<?php
+				         }
+						?>
+						
+						</p>
+				   
 				   
 			   
 				   </td>

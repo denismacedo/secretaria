@@ -25,6 +25,10 @@
       <tr bgcolor="#f0f0f0">
         <td colspan="2" class="explicacao" height="50">    * Informe os campos abaixo e clique em <strong>Imprimir</strong>. </td>
         </tr>
+         <tr>
+        <td height="30">N&uacute;mero da Inscri&ccedil;&atilde;o: </td>
+        <td valign="middle"><input name="codInscricao" id="codInscricao" maxlength="10" size="15" value="<?php echo $codInscricao; ?>"  type="text" class="txtAUTO" style="height:20px;font-size:14px;font-weigth:bold;text-align:right;" /></td>
+      </tr>
       <tr>
         <td height="30">Situa&ccedil;&atilde;o da Inscri&ccedil;&atilde;o: </td>
         <td valign="middle"><select name="situacao" id="situacao">

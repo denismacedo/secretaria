@@ -26,23 +26,15 @@ include("headerRel.php");
 			<td height="30" class="labelColRel"><span style="font-weight: bold;">INSCRI&Ccedil;&Atilde;O</span></td>
 			<td height="30" class="labelColRel"><span style="font-weight: bold;">VALOR PAG.</span></td>
 			<td height="30" class="labelColRel"><span style="font-weight: bold;">DATA PAG.</span></td>
-       
+			<td height="30" class="labelColRel"><span style="font-weight: bold;">Centro</span></td>
+			<td height="30" class="labelColRel"><span style="font-weight: bold;">Comissão</span></td>            
 			</tr>
 
   
   <?php 
 		
-		$sql = "Select a.nro_inscricao, b.codigo as codigo, b.nome, b.sexo, b.rua_ou_quadra, b.complemento_ou_conjunto, b.bairro, b.cep, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais, b.email, b.numero, a.data_insercao as data, c.valor_pago, c.data_pago 
-		From inscricao a, pessoa_fisica b, boleto c 
-		Where a.evento = ".$_SESSION["EVENTO_SESSION"]." 
-				and a.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]." 
-				and a.pessoa_fisica = b.codigo 
-				and a.codigo = c.inscricao
-				and c.pago = 'S'
-				Order by b.nome";	
-				
-		/*$sql = "Select a.nro_inscricao, b.codigo as codigo, b.nome, b.sexo, b.rua_ou_quadra, b.complemento_ou_conjunto, b.bairro, b.cep, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais, b.email, b.numero, a.data_insercao as data, c.valor_pago, c.data_pago, e.nome as nome_pj
-		From inscricao a, pessoa_fisica b, boleto c, origem d, pessoa_juridica e 
+		/*$sql = "Select a.nro_inscricao, b.codigo as codigo, b.nome, b.sexo, b.rua_ou_quadra, b.complemento_ou_conjunto, b.bairro, b.cep, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais, b.email, b.numero, a.data_insercao as data, c.valor_pago, c.data_pago, e.nome as nome_pj, f.nome as comissao 
+		From inscricao a, pessoa_fisica b, boleto c, origem d, pessoa_juridica e, ocorrencia f, sub_ocorrencia g, participante h, evento i 
 		Where a.evento = ".$_SESSION["EVENTO_SESSION"]." 
 				and a.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]." 
 				and a.pessoa_fisica = b.codigo 
@@ -50,8 +42,43 @@ include("headerRel.php");
 				and c.pago = 'S'
 				and b.codigo = d.pessoa_fisica
 				and d.pessoa_juridica = e.codigo
-				Order by b.nome";		*/			
 				
+				and g.ocorrencia = f.codigo 
+				and g.evento = f.evento 
+
+				and f.evento = i.codigo 
+				and i.tipo_evento = 8
+				and g.evento = h.evento 
+				and g.ocorrencia = h.ocorrencia 
+				and g.codigo = h.sub_ocorrencia 
+				and h.inscricao = a.codigo
+				and h.inscricao = c.inscricao
+				
+				Order by b.nome";*/
+		
+		$sql = "Select a.nro_inscricao, b.codigo as codigo, b.nome, b.sexo, b.rua_ou_quadra, b.complemento_ou_conjunto, b.bairro, b.cep, b.data_nasc, b.unidade_da_federacao, b.cidade, b.pais, b.email, b.numero, a.data_insercao as data, c.valor_pago, c.data_pago, e.nome as nome_pj, f.nome as comissao 
+		From inscricao a, pessoa_fisica b, boleto c, origem d, pessoa_juridica e, ocorrencia f, sub_ocorrencia g, participante h, evento i 
+		Where a.evento = ".$_SESSION["EVENTO_SESSION"]." 
+				and a.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]." 
+				and a.pessoa_fisica = b.codigo 
+				and a.codigo = c.inscricao
+				and c.pago = 'S'
+				and b.codigo = d.pessoa_fisica
+				and d.pessoa_juridica = e.codigo
+				
+				and g.ocorrencia = f.codigo 
+				and g.evento = f.evento 
+
+				and f.evento = i.codigo 
+				
+				and g.evento = h.evento 
+				and g.ocorrencia = h.ocorrencia 
+				and g.codigo = h.sub_ocorrencia 
+				and h.inscricao = a.codigo
+				and h.inscricao = c.inscricao
+				Group by b.codigo
+				
+				Order by b.nome";
 		
 		$resultado = mysql_query($sql);
 		
@@ -105,7 +132,8 @@ include("headerRel.php");
 							<td align="center"><b><?php echo formatNumber(mysql_result($resultado, $i, "nro_inscricao"), 4); ?></b></td>
 							<td align="center"><?php echo number_format(mysql_result($resultado, $i, "valor_pago"), 2, ',', '.'); ?></td>
 							<td align="center"><?php echo formatDate(mysql_result($resultado, $i, "data_pago")); ?></td>
-                       
+							<td align="left"><?php echo mysql_result($resultado, $i, "nome_pj"); ?></td>
+							<td align="left"><?php echo mysql_result($resultado, $i, "comissao"); ?></td>                         
             </tr>
 					<?php
 				

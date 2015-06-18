@@ -6,6 +6,7 @@ require_once('../util/http.php');
 require_once('../util/comum.php'); 
 
 require_once("../sql/classPF.php"); 
+require_once("../sql/classEvento.php"); 
 require_once("../sql/classOcorrencia.php"); 
 require_once("../sql/classInscricao.php"); 
 require_once("../sql/classTipoAlojamento.php"); 
@@ -90,6 +91,10 @@ if ($metodo == "init") {
 } else if ($metodo == "pagSeguro") {
 
 	pagSeguro();
+
+} else if ($metodo == "paypal") {
+
+	payPal();
 }
 
 
@@ -119,11 +124,15 @@ function inscricaoPasso2($codPF, $tipoMsg, $msg) {
 
 
 	if ($_SESSION["OCORRENCIA_SESSION"] != "" && $_SESSION["EVENTO_SESSION"] != "") {
+		$objEvento = new classEvento();
 		$objOcorrencia = new classOcorrencia();
 		$objInscricao = new classInscricao();
 		$staticInsc = new classInscricao();
 		$objTipoAlojamento = new classTipoAlojamento();
 		
+		// BUSCA O OBJETO EVENTO **************
+		$objEvento = $objEvento->findByCodigo($_SESSION["EVENTO_SESSION"]);
+
 		// BUSCA O OBJETO OCORRENCIA **************
 		$objOcorrencia = $objOcorrencia->findByCodigo($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
 		
@@ -150,6 +159,31 @@ function inscricaoPasso2($codPF, $tipoMsg, $msg) {
 			.mysql_result($resultado, $i, 1)."</option>";
 		}
 		$selectTipoAlojamento .= "</select>";
+		
+		
+		// MONTA OPCOES DE IDIOMA PARA CONCAFRAS MUNDIAL
+		if ($objEvento->tipoEvento == 11) {
+			$arrayTemas = array("PORTUGUES", "ESPANHOL", "INGLES", "FRANCES", "ESPERANTO");
+			
+			// MONTA AS OPCOES DE TEMA
+			$selectIdioma = "<select name='idioma_tema_central' id='idioma_tema_central'></option>";
+			$countTemas = count($arrayTemas);
+
+			for ($i = 0; $i < $countTemas; $i++) {
+				$strSel = "";
+				
+				if (isset($objInscricao) && $objInscricao != NULL) {
+					
+					if ($objInscricao->idioma_tema_central == $arrayTemas[$i]) {
+						$strSel = "SELECTED";
+					}
+				}
+				//echo $arrayTemas($i);
+				$selectIdioma .= "<option value='".$arrayTemas[$i]."' ".$strSel.">".$arrayTemas[$i]."</option>";
+			}
+			
+			$selectIdioma .= "</select>";
+		}
 		
 		
 		// PARTICIPANTES
@@ -397,6 +431,7 @@ function salvaInscricao() {
 	$codInscricao = getPost("codInscricao");
 	$nroInscricao = getPost("nroInscricao");
 	$tipoAlojamento = getPost("tipoAlojamento");
+	$idioma_tema_central = getPost("idioma_tema_central");
 	$flag_trabalhador = getPost("flag_trabalhador");
 	$comissoes = getPost("comissoes");
 	$temasAtuaisOp1 = getPost("temasAtuaisOp1");
@@ -411,6 +446,7 @@ function salvaInscricao() {
 	$objInscricao->pessoa_fisica = $codPF;
 	$objInscricao->nro_inscricao = $nroInscricao;
 	$objInscricao->tipo_alojamento = $tipoAlojamento;
+	$objInscricao->idioma_tema_central = $idioma_tema_central;
 	$objInscricao->flag_trabalhador = $flag_trabalhador;
 	$objInscricao->comissao = $comissoes;
 	$objInscricao->temaAtual1 = $temasAtuaisOp1;
@@ -800,6 +836,7 @@ function salvarPJ() {
 function salvar() {
 
 	$codigo = getPost("codigo");
+	$cpf = getPost("cpf");
 	$nome = retiraCaracteresEspeciais(getPost("nome"));
 	$apelido = retiraCaracteresEspeciais(getPost("apelido"));
 	$dataNasc = getPost("dataNasc");
@@ -816,6 +853,7 @@ function salvar() {
 	$violao = getPost("violao");
 	$profissao = retiraCaracteresEspeciais(getPost("profissao"));
 	$dirigente = getPost("dirigente");
+	$vegetariano = getPost("vegetariano");
 	$codResponsavel = getPost("codResponsavel");
 	$codOrigem = getPost("codOrigem");
 	$ddd = getPost("ddd");
@@ -844,13 +882,19 @@ function salvar() {
 	
 		$objPFFinder = new classPF();
 		
-		$objPF = $objPFFinder->searchPFByUniqueKey($nome, $sexo, $dataNasc);
+		if ($cpf != "") {
+			$objPF = $objPFFinder->findByCPF($cpf);
+		}
 		
-		 if ($objPF == "") {
-		 	$objPF = new classPF();
+		if ($objPF == "") {
+			$objPF = $objPFFinder->searchPFByUniqueKey($nome, $sexo, $dataNasc);
+		}
+		
+		if ($objPF == "") {
+			$objPF = new classPF();
 			
-		 } else {
-		 
+		} else {
+		 	
 		 	// VERIFICA SE JÁ REALIZOU INSCRICAO
 			
 			$objInscFinder = new classInscricao();
@@ -860,10 +904,12 @@ function salvar() {
 				$erro = "VOC&Ecirc; J&Aacute; EST&Aacute; INSCRITO NO EVENTO! SUA INSCRI&Ccedil;&Atilde;O &Eacute;: ".formatNumber($objInsc->nro_inscricao, 5);
 			
 			}
+
 		 }
 		 
 		 if ($erro == "") {
 		
+			$objPF->cpf = $cpf;
 			$objPF->nome = $nome;
 			$objPF->apelido = $apelido;
 			$objPF->data_nasc = $dataNasc;
@@ -877,6 +923,7 @@ function salvar() {
 			$objPF->email = $email;
 			$objPF->alegria_crista = $violao;
 			$objPF->dirigente_centro = $dirigente;
+			$objPF->vegetariano = $vegetariano;			
 			$objPF->responsavel = $codResponsavel;
 			
 			// TRATA CIDADE
@@ -928,8 +975,8 @@ function salvar() {
 		
 		
 	 	if ($codigo != "") {
-			$cPF = new classPF();
-			$objPF = $cPF->findByCodigo($codigo);
+			$newPF = new classPF();
+			$objPF = $newPF->findByCodigo($codigo);
 		}
 	
 		inscricaoPasso2($codigo, "", "");
@@ -1060,6 +1107,65 @@ function pagSeguro() {
 
 		include("pagSeguro.php");
 
+}
+
+
+function payPal() {
+
+	$objOco = new classOcorrencia();
+	$objOco = $objOco->findByCodigo($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
+
+	$objCP = new classConfiguracaoPagamento();
+	$objCP = $objCP->findByEventoOcorrencia($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
+
+	$codInscricao = getPost("codInscricao");
+	
+	$objInsc = new classInscricao();
+	$objInsc = $objInsc->findInscricaoByCodigo($codInscricao);
+	
+	$objPF = new classPF();
+	$objPF = $objPF->findByCodigo($objInsc->pessoa_fisica);
+	
+	$staticBoleto = new classBoleto();
+	$objBoleto = $staticBoleto->findByInscricao($codInscricao);
+
+
+	if ($objBoleto == NULL) {
+	
+		// GERA O BOLETO
+		$objBoleto = new classBoleto();
+		$objBoleto->inscricao = $codInscricao;
+		
+		//echo dateDiff($objPF->data_nasc, $objOco->inicio)."<br>";
+
+		if (dateDiff($objPF->data_nasc, $objOco->inicio) >= 12) {
+			$objBoleto->valor = $objCP->valor_adulto;
+		} else {
+			$objBoleto->valor = $objCP->valor_crianca;
+			$crianca = true;
+		}
+		
+		$objBoleto->nosso_nro = $objCP->ocorrencia.date("y").formatNumber($objInsc->nro_inscricao, 5);
+		
+		$objBoleto = $objBoleto->save();
+	} else {
+		if (dateDiffDias(date("Y-m-d"), $objBoleto->data_vencimento) < 1) {
+			$objBoleto = $objBoleto->atualizaDataVencimento();
+		}
+	}
+	
+	if ($objPF->responsavel != "") {
+		$objResponsavel = $objPF->findByCodigo($objPF->responsavel);
+		
+		$objBoleto->sacado = $objResponsavel->nome;
+		
+	} else {
+	
+		$objBoleto->sacado = $objPF->nome;
+		
+	}
+
+		include("payPal.php");
 }
 
 

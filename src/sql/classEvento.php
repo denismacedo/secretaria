@@ -29,6 +29,34 @@ class classEvento {
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 	}
 	
+	
+	public function findByCodigo($codigo) {
+		
+		$query = "select e.*
+					from evento e
+					where e.codigo = ".$codigo;
+
+		$resultado = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
+		
+		
+		if (mysql_num_rows($resultado) > 0) {
+		
+			$objEvento = new classEvento();
+			
+			$objEvento->codigo =  mysql_result($resultado,0,"codigo");
+			$objEvento->nome = mysql_result($resultado,0,"nome");
+			$objEvento->tipoEvento = mysql_result($resultado,0,"tipo_evento");
+			
+			return $objEvento;
+		} else {
+		
+			return "";
+		
+		}
+		
+	}
+
+	
 	public function update() {
 		
 			$sql = "UPDATE evento SET
@@ -54,7 +82,7 @@ class classEvento {
 	}
 
 	public function findMasterEventos() {
-		$query = "select eve.codigo, oco.nome, tipo.codigo, tipo.descricao as tipo, oco.codigo as ocorrencia, oco.inicio, oco.termino from evento eve, tipo_evento tipo, ocorrencia oco where eve.tipo_evento in (6,7,9) and eve.tipo_evento = tipo.codigo and eve.codigo = oco.evento";
+		$query = "select eve.codigo, oco.nome, tipo.codigo, tipo.descricao as tipo, oco.codigo as ocorrencia, oco.inicio, oco.termino from evento eve, tipo_evento tipo, ocorrencia oco where eve.tipo_evento in (6,7,9, 10, 11) and eve.tipo_evento = tipo.codigo and eve.codigo = oco.evento";
 		$result = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		return $result;
 	}
@@ -66,7 +94,7 @@ class classEvento {
 	}
 	
 	public function findMasterTipoEventos() {
-		$query = "select * from tipo_evento where codigo in (6,7,9) order by descricao";
+		$query = "select * from tipo_evento where codigo in (6,7,9, 10, 11) order by descricao";
 		$result = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		return $result;
 	}

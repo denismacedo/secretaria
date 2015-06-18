@@ -84,7 +84,10 @@ if ($metodo == "numParticipantesCurso") {
 	relInscritosTA();
 } else if ($metodo == "relParticipantesCursoImp") {
 	relParticipantesCursoImp();
+} else if ($metodo == "celularInscritos") {
+	relCelularInscritos();
 }
+
 
 function relParticipantesCursoImp() {
 	include("relParticipantesCursoImp.php");
@@ -184,6 +187,10 @@ function criancasResponsaveisCurso() {
 
 function relEmails() {
 	include("relEmails.php");
+}
+
+function relCelularInscritos() {
+	include("relCelularInscritos.php");
 }
 
 ?>

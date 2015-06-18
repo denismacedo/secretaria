@@ -181,6 +181,18 @@ function searchPF() {
 	document.cadastroForm.submit();
 }
 
+function searchByCPF() {
+	if (document.cadastroForm.cpf.value.trim() != "") {
+		loading();
+		document.cadastroForm.action = 'doCadastro.php?method=searchByCPF';
+		document.cadastroForm.target = '_self';
+		document.cadastroForm.submit();
+	} else {
+		alert("Informe o CPF!");	
+	}
+}
+
+
 function clearField(origem, fieldName) {
 	if (origem.value == "") {
 		field =	document.getElementById(fieldName);	
