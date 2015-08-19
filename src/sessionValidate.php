@@ -1,8 +1,8 @@
 <?php
 
-session_start();
+//session_start();
 
-if ($_SESSION["USER_SESSION"] == "") {
+if ($_SESSION['USER_SESSION'] == "") {
 	header("Location: login.php");
 }
 ?>

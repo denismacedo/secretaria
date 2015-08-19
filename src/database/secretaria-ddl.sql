@@ -1,3 +1,16 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `secretaria`
+--
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `bloco`
@@ -251,6 +264,7 @@ CREATE TABLE IF NOT EXISTS `inscricao` (
   `nro_inscricao` int(11) DEFAULT NULL,
   `flag_presente` char(1) DEFAULT NULL,
   `cracha_impresso` char(1) DEFAULT NULL,
+  `idioma_tema_central` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `inscricao_chave` (`evento`,`ocorrencia`,`pessoa_fisica`),
   KEY `if50inscricao` (`evento`,`ocorrencia`),
@@ -425,6 +439,8 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `email` varchar(80) DEFAULT NULL,
   `numero` varchar(30) DEFAULT NULL,
   `apelido` varchar(80) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `vegetariano` char(1) DEFAULT 'N',
   PRIMARY KEY (`codigo`),
   UNIQUE KEY `IX_NOME_SEXO_DT` (`nome`,`sexo`,`data_nasc`),
   KEY `if154pessoa_fisica` (`unidade_da_federacao`,`cidade`,`pais`),
@@ -437,17 +453,61 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pessoa_fisica_patos`
+--
+
+CREATE TABLE IF NOT EXISTS `pessoa_fisica_patos` (
+  `nome` varchar(80) NOT NULL,
+  `sexo` char(1) NOT NULL,
+  `rua_ou_quadra` varchar(80) DEFAULT NULL,
+  `complemento_ou_conjunto` varchar(80) DEFAULT NULL,
+  `bairro` varchar(80) DEFAULT NULL,
+  `cep` varchar(8) DEFAULT NULL,
+  `data_nasc` date NOT NULL,
+  `alegria_crista` char(1) DEFAULT NULL,
+  `dirigente_centro` char(1) DEFAULT NULL,
+  `profissao` varchar(60) DEFAULT NULL,
+  `codigo` int(11) NOT NULL,
+  `responsavel` int(11) DEFAULT NULL,
+  `nome_mae` varchar(80) DEFAULT NULL,
+  `unidade_da_federacao` char(2) DEFAULT NULL,
+  `cidade` varchar(80) DEFAULT NULL,
+  `pais` char(2) DEFAULT NULL,
+  `data_insercao` date DEFAULT NULL,
+  `usuario_insercao` varchar(20) DEFAULT NULL,
+  `data_atualizacao` date DEFAULT NULL,
+  `usuario_atualizacao` varchar(20) DEFAULT NULL,
+  `tipo_pf` int(11) NOT NULL,
+  `email` varchar(80) DEFAULT NULL,
+  `numero` varchar(30) DEFAULT NULL,
+  `apelido` varchar(80) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `vegetariano` char(1) DEFAULT 'N'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pessoa_fisica_telefone`
 --
 
 CREATE TABLE IF NOT EXISTS `pessoa_fisica_telefone` (
   `pessoa_fisica` int(11) NOT NULL,
-  `ddd` char(2) NOT NULL,
-  `numero` char(8) NOT NULL,
-  PRIMARY KEY (`pessoa_fisica`,`ddd`,`numero`),
-  KEY `if40pessoa_fisica_telefone` (`pessoa_fisica`),
-  KEY `if41pessoa_fisica_telefone` (`ddd`,`numero`),
-  KEY `pessoa_fisica_telefones_ie` (`pessoa_fisica`)
+  `ddd` varchar(4) DEFAULT NULL,
+  `numero` varchar(11) DEFAULT NULL,
+  UNIQUE KEY `PK_PFT` (`pessoa_fisica`,`ddd`,`numero`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pessoa_fisica_telefone_patos`
+--
+
+CREATE TABLE IF NOT EXISTS `pessoa_fisica_telefone_patos` (
+  `pessoa_fisica_patos` int(11) NOT NULL,
+  `ddd` varchar(4) DEFAULT NULL,
+  `numero` varchar(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -559,14 +619,24 @@ CREATE TABLE IF NOT EXISTS `sub_ocorrencia` (
 --
 
 CREATE TABLE IF NOT EXISTS `telefone` (
-  `ddd` char(2) NOT NULL,
-  `numero` char(8) NOT NULL,
+  `ddd` varchar(4) NOT NULL,
+  `numero` varchar(11) NOT NULL,
   `tipo_telefone` int(11) NOT NULL,
   `pessoa_juridica` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ddd`,`numero`),
-  KEY `if23telefone` (`pessoa_juridica`),
-  KEY `if37telefone` (`tipo_telefone`),
-  KEY `telefones_ie` (`pessoa_juridica`)
+  UNIQUE KEY `PK_TEL` (`ddd`,`numero`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `telefone_patos`
+--
+
+CREATE TABLE IF NOT EXISTS `telefone_patos` (
+  `ddd` varchar(4) NOT NULL,
+  `numero` varchar(11) NOT NULL,
+  `tipo_telefone` int(11) NOT NULL,
+  `pessoa_juridica` int(11) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

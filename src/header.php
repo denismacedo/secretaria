@@ -96,7 +96,7 @@ body {
 <ul id="cssmenu1">
 <li style="border-left: 1px solid #336699;"><a href="#">Administra&ccedil;&atilde;o</a>
 	<ul>
-	<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
+	<?php if (isset($_SESSION['NOME_EVENTO_SESSION'])) {?>
     	<li><a href="doConfiguracaoCracha.php?method=init">Configurar Crach&aacute;</a></li>
     	<li><a href="doTemas.php?method=init">Cursos/Temas</a></li>
     	<li><a href="doBackup.php?method=init">Gerar arquivo de inscri&ccedil;&otilde;es</a></li>
@@ -113,7 +113,7 @@ body {
     	<li><a href="cadastroPJ.php">Pessoa Jur&iacute;dica</a></li>
     </ul>
 </li>
-<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
+<?php if (isset($_SESSION['NOME_EVENTO_SESSION'])) {?>
 <li style="border-left: 1px solid #003366;"><a href="#">Inscri&ccedil;&atilde;o</a>
 	<ul>
     	<li><a href="initControlePresenca.php">Controle de Presen&ccedil;a</a></li>
@@ -162,15 +162,15 @@ body {
   				
   					
   						<td class="labelUsuario" align="right" width="38%" nowrap="nowrap">
-  						<img src="imagens/user.gif" align="absmiddle"> &nbsp; <?php echo $_SESSION["USER_SESSION"]; ?> &nbsp;
+  						<img src="imagens/user.gif" align="absmiddle"> &nbsp; <?php echo $_SESSION['USER_SESSION']; ?> &nbsp;
   						&nbsp;
 						<?php
 						
-							if (isset($_SESSION["NOME_EVENTO_SESSION"])) {
+							if (isset($_SESSION['NOME_EVENTO_SESSION'])) {
 							
 							?>
   						
-  						-  &nbsp; &nbsp; <?php echo $_SESSION["NOME_EVENTO_SESSION"]; ?> &nbsp;
+  						-  &nbsp; &nbsp; <?php echo $_SESSION['NOME_EVENTO_SESSION']; ?> &nbsp;
   						&nbsp;
 						
 						<?php } ?>
