@@ -1,0 +1,247 @@
+<?php 
+
+include ("header.php");
+
+$try = true;
+
+?>
+
+<form name="cadastroForm" method="post" action="doInscricao.php?metodo=salvar">
+
+  	<table border="0" cellpadding="0" cellspacing="0" width="100%">
+		
+		<tr>
+				<td>
+	
+	  <table align="center" border="0" cellpadding="2" cellspacing="1" width="700">
+        
+          <tr bgcolor="#333333">
+            <td height="40" colspan="2" bgcolor="#999999">
+			<span style="color: rgb(255, 255, 255); font-weight: bold; font-size: 14px;">&nbsp;Passo 1 de 3: Informe os dados abaixo e clique no bot&atilde;o Confirmar. </span></td>
+          </tr>
+          
+          <!--<tr>
+        <td width="119" height="20">Tipo de Pessoa F&iacute;sica: </td>
+        <td width="570">
+        	<select name="tipoPF"><option value="" selected="selected"></option>
+<option value="1">CARAVANEIRO</option>
+<option value="2">CONVIDADO</option>
+<option value="3">APOIO</option></select>
+&nbsp;&nbsp;          
+	
+</td>
+      </tr>-->
+        <input type="hidden" name="tipoPF" value="1"/>
+        
+        <tr>
+          <td height="30">Nome:</td>
+          <td valign="middle"><input name="nome" id="nome" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->nome, 'nome', $try); ?>" type="text" class="txt">
+              <!-- &nbsp;<img style="" src="imagens/lupa.gif" alt="Procurar" onclick="findPF();" align="absmiddle" border="0" width="17" height="17">--></td>
+        </tr>
+		<tr>
+          <td height="30">Nome para Crach&aacute;:</td>
+          <td valign="middle"><input name="apelido" id="apelido" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->apelido, 'apelido', $try); ?>" type="text" class="txt">
+           </td>
+        </tr>
+        <tr bgcolor="#f9f9f9">
+          <td height="30">Data de Nascimento: </td>
+          <td valign="middle"><input name="dataNasc" maxlength="10" size="14" value="<?php echo getAltPost(formatDate(@$objPF->data_nasc), 'dataNasc', $try); ?>" type="text"  onKeyPress="ehNumerico(this); mascaraData(this)" onBlur="validaData(this);">
+            (dd/mm/aaaa)          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sexo:&nbsp;
+            <input type="radio" name="sexo" value="M" style="border: 0px;" <?php echo getChecked(getAltPost(@$objPF->sexo, 'sexo', $try), 'M'); ?> >
+            Masculino
+            <input type="radio" name="sexo" value="F" style="border: 0px;" <?php echo getChecked(getAltPost(@$objPF->sexo, 'sexo', $try), 'F'); ?> >
+            Feminino </td>
+        </tr>
+        <tr>
+          <td height="30">Rua:</td>
+          <td><input name="rua" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->rua_ou_quadra, 'rua', $try); ?>" type="text">
+            &nbsp;&nbsp;Nro:&nbsp;&nbsp;
+            <input name="nro" maxlength="10" size="15" value="<?php echo getAltPost(@$objPF->numero, 'nro', $try); ?>" class="txtNumero" type="text"></td>
+        </tr>
+        <tr bgcolor="#f9f9f9">
+          <td height="30">Complemento:</td>
+          <td><input name="complemento" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->complemento_ou_conjunto, 'complemento', $try); ?>" type="text">
+            &nbsp;&nbsp;CEP:&nbsp;
+            <input name="cep" maxlength="10" size="11" value="<?php echo getAltPost(@$objPF->cep, 'cep', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);">
+            (somente n&uacute;meros)</td>
+        </tr>
+        <tr>
+          <td height="30">Bairro:</td>
+          <td><input name="bairro" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->bairro, 'bairro', $try); ?>" type="text"></td>
+        </tr>
+        <tr bgcolor="#f9f9f9">
+          <!--<td height="30">Cidade:</td>
+          <td><input name="codCidade" id="codCidade" value="<?php if (isset($objPF->objCidade)) { echo @$objPF->objCidade->nome."/".@$objPF->objCidade->unidade_da_federacao."/".@$objPF->objCidade->pais; } else {echo getAltPost('', 'codCidade', $try);} ?>" type="hidden">
+              <input name="cidade" id="cidade" maxlength="80" size="50" value="<?php echo getAltPost(@$objPF->objCidade->nome, 'cidade', $try); ?>" type="text" class="txtAUTO" >
+          </td>-->
+          <td height="30">Pa&iacute;s:</td>
+        <td>
+		<div id="divPais" style="float:left;">
+        <select name="pais" id="pais" onchange="changePais(this.value);"><option selected></option><?php echo $paises; ?></select>
+		</div>
+		<?php 
+		
+			if (isset($estados) && $estados != "") {
+				?>
+				
+				<div id="divEstado" style="float:left;">
+          &nbsp;&nbsp;Estado:&nbsp;
+			</div>
+			<div id="divUF" style="float:left;">
+				<?php echo $estados; ?>
+			</div>
+				
+				<?php
+			} else {
+			
+				?>
+				
+				<div id="divEstado" style="display:none; visibility:hidden; float:left;">
+          &nbsp;&nbsp;Estado:&nbsp;
+			</div>
+			<div id="divUF" style="display: none; visibility: hidden;  float:left;"></div>
+				
+				<?php
+			}
+		
+		?>
+		
+		<?php 
+		
+			if (isset($cidades) && $cidades != "") {
+				?>
+				
+				<div id="divCid" style="float:left;">
+          &nbsp;&nbsp;Cidade:&nbsp;
+			</div>
+			<div id="divCidade" style="float:left;">
+				<?php echo $cidades; ?>
+			</div>
+				
+				<?php
+			} else {
+			
+				?>
+				
+				<div id="divCid" style="display:none; visibility:hidden; float:left;">
+          &nbsp;&nbsp;Cidade:&nbsp;
+			</div>
+			<div id="divCidade" style="display: none; visibility: hidden;  float:left;"></div>
+				
+				
+				<?php
+			}
+		
+		?>
+
+       </td>
+        </tr>
+        <tr>
+          <td height="30">E-mail:</td>
+          <td><input name="email" id="email" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->email, 'email', $try); ?>" type="text">
+            &nbsp;&nbsp;Toca Viol&atilde;o:&nbsp;&nbsp;
+            <select name="violao" id="violao">
+              <option value=""></option>
+              <option value="S" <?php echo getSelected(getAltPost(@$objPF->alegria_crista, 'violao', $try), 'S'); ?>>SIM</option>
+              <option value="N" <?php echo getSelected(getAltPost(@$objPF->alegria_crista, 'violao', $try), 'N'); ?>>NAO</option>
+            </select></td>
+        </tr>
+        <tr bgcolor="#f9f9f9">
+          <td height="30">Profiss&atilde;o:</td>
+          <td><input name="profissao" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->profissao, 'profissao', $try); ?>" type="text">
+            &nbsp;&nbsp;Dirigente de C.E.:&nbsp;
+            <select name="dirigente">
+              <option value=""></option>
+              <option value="S" <?php echo getSelected(getAltPost(@$objPF->dirigente_centro, 'dirigente', $try), 'S'); ?>>SIM</option>
+              <option value="N" <?php echo getSelected(getAltPost(@$objPF->dirigente_centro, 'dirigente', $try), 'N'); ?>>NAO</option>
+            </select>          </td>
+        </tr>
+       <tr bgcolor="#ffffff">
+          <td height="30">Respons&aacute;vel:<br>(apenas para crian&ccedil;as)</td>
+          <td valign="middle"><input name="codResponsavel" id="codResponsavel" value="<?php echo getAltPost(@$objPF->codResponsavel, 'codResponsavel', $try); ?>" type="hidden">
+              <input name="responsavel" id="responsavel" maxlength="80" size="50" value="<?php echo getPost('responsavel'); ?>"  type="text" class="txtRO" readonly>
+              &nbsp; <a href="#" title="Procurar Respons&aacute;vel"><img style="cursor:hand;" src="../imagens/lupa.gif" alt="Procurar Respons&aacute;vel" onclick="javascript:findResponsavel();" align="absmiddle" border="0" width="17" height="17"></a></td>
+        </tr>
+        <tr bgcolor="#f9f9f9">
+          <td height="30"><!--<a alt="Clique para cadastar um Centro Esp&iacute;rita" title="Clique para cadastar um Centro Esp&iacute;rita" href="javascript:cadastrarPJ();">-->Centro Esp&iacute;rita:<!--</a>--></td>
+          <td valign="middle"><input name="codOrigem" id="codOrigem" value="<?php echo getAltPost(@$objPF->objOrigem->pj, 'codOrigem', $try); ?>" type="hidden">
+              <input name="origem" id="origem" maxlength="80" size="50" value="<?php echo getAltPost(@$objPF->objOrigem->nomePJ, 'origem', $try); ?>"  type="text" class="txtRO" readonly>
+              <!--<input name="origemComplemento" id="origemComplemento" readonly="readonly" size="40" value="<?php if (isset($objPF->objOrigem)) { echo @$objPF->objOrigem->cidade." - ".@$objPF->objOrigem->estado; } else { echo getAltPost('', 'origemComplemento', $try); } ?>" type="text" style="border: 0px; font-style:italic; color:#666666; background-color:#f9f9f9; font-size:9px;" tabindex="-10">-->
+              &nbsp; <a href="#" title="Procurar Centro Esp&iacute;rita"><img style="cursor:hand;" src="../imagens/lupa.gif" alt="Procurar Centro Esp&iacute;rita" onclick="javascript:findOrigem();" align="absmiddle" border="0" width="17" height="17"></a> <b>&nbsp;&nbsp;&nbsp;&nbsp;N&atilde;o encontrou seu centro? <a href="#" onClick="javascript:exibeCadCentro();">Clique aqui!</a></b></td>
+        </tr>
+        <tr>
+          <td colspan="2" height="20"><table border="0" width="100%">
+              
+                <tr>
+                  <td valign="top" width="50%"><fieldset>
+                    <legend><span style="font-weight: bold;">Telefones</span></legend>
+                    <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                      
+                        <tr>
+                          <td width="11%" height="26">DDD</td>
+                          <td width="14%"><input name="ddd" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd', $try); ?>" class="txtNumero" type="text" onKeyUp="document.cadastroForm.ddd2.value = this.value; document.cadastroForm.ddd3.value = this.value;" onKeyPress="ehNumerico(this);"></td>
+                          <td width="18%">Residencial: </td>
+                          <td width="57%"><input name="residencial" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telRes, 'residencial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                        </tr>
+                        <tr>
+                          <td>DDD</td>
+                          <td><input name="ddd3" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd3', $try); ?>" readonly="readonly" class="txtNumeroRO" type="text"></td>
+                          <td>Celular: </td>
+                          <td height="30"><input name="celular" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telCel, 'celular', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                        </tr>
+                        <tr bgcolor="#f9f9f9">
+                          <td>DDD</td>
+                          <td><input name="ddd2" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd2', $try); ?>" readonly="readonly" class="txtNumeroRO" type="text"></td>
+                          <td>Comercial: </td>
+                          <td><input name="comercial" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telCom, 'comercial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                        </tr>
+                      
+                    </table>
+                  </fieldset></td>
+                  <td valign="top" width="50%"><fieldset>
+                    <legend><span style="font-weight: bold;">Particularidades</span></legend>
+                    <table border="0" cellpadding="3" cellspacing="1" width="100%">
+                      
+                        <tr>
+                          <td width="11%" height="26">Doen&ccedil;a: </td>
+                          <td><input name="doenca" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->objParticularidade->doenca, 'doenca', $try); ?>" type="text"></td>
+                        </tr>
+                        <tr bgcolor="#f9f9f9">
+                          <td>Medicamento: </td>
+                          <td><input name="medicamento" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->objParticularidade->medicamento, 'medicamento', $try); ?>" type="text"></td>
+                        </tr>
+                        <tr>
+                          <td valign="top" height="30">Observa&ccedil;&atilde;o:</td>
+                          <td><textarea name="obs" cols="40" rows="2"><?php echo getAltPost(@$objPF->objParticularidade->observacao, 'obs', $try); ?></textarea></td>
+                        </tr>
+                      
+                    </table>
+                  </fieldset></td>
+                </tr>
+              
+          </table>             </td>
+		  
+        </tr>
+        <tr align="center" bgcolor="#f0f0f0">
+          <td colspan="2" height="20"><input name="btInserir" id="btInserir" value="Confirmar" onclick="submitSalvar();" type="button" <?php if (getAltPost(@$objPF->codigo, 'codigo', $try) != "") echo "disabled"; ?>></td>
+        </tr>
+		
+      </table>
+	  <p><br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+	    
+	    
+      </p></td>
+
+
+</tr>
+
+
+</table>
+</form>
+
+<?php include ("footer.php"); ?>

@@ -82,7 +82,7 @@ class classEvento {
 	}
 
 	public function findMasterEventos() {
-		$query = "select eve.codigo, oco.nome, tipo.codigo, tipo.descricao as tipo, oco.codigo as ocorrencia, oco.inicio, oco.termino from evento eve, tipo_evento tipo, ocorrencia oco where eve.tipo_evento in (6,7,9, 10, 11) and eve.tipo_evento = tipo.codigo and eve.codigo = oco.evento";
+		$query = "select eve.codigo, oco.nome, tipo.codigo, tipo.descricao as tipo, oco.codigo as ocorrencia, oco.inicio, oco.termino, oco.fim_inscricao from evento eve, tipo_evento tipo, ocorrencia oco where eve.tipo_evento in (6,7,9, 10, 11) and eve.tipo_evento = tipo.codigo and eve.codigo = oco.evento";
 		$result = mysql_query($query) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		return $result;
 	}

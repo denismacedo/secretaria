@@ -21,6 +21,8 @@ class classInscricao {
   public $usuario_insercao;
   public $cracha_impresso; 
   public $idioma_tema_central;
+  public $contatoResponsavel;
+  public $data_hora_insercao;
 
 	
 	public function classInscricao() {
@@ -67,6 +69,7 @@ class classInscricao {
 					flag_trabalhador,
 					nro_inscricao,
 					idioma_tema_central,
+					contato_responsavel,
 					flag_presente) VALUES (
 				".getNullNumber($this->evento).",
 				".getNullNumber($this->ocorrencia).",
@@ -78,6 +81,7 @@ class classInscricao {
 				".getNull($this->flag_trabalhador).",
 				".getNullNumber($this->nro_inscricao).",
 				".getNull($this->idioma_tema_central).",				
+				".getNull($this->contatoResponsavel).",				
 				".getNull($this->flag_presente).")";
 		} else {
 		
@@ -85,6 +89,7 @@ class classInscricao {
 				tipo_alojamento = ".getNull($this->tipo_alojamento).",
 				flag_trabalhador =	".getNull($this->flag_trabalhador).",
 				idioma_tema_central =	".getNull($this->idioma_tema_central).",				
+				contato_responsavel =	".getNull($this->contatoResponsavel).",				
 				data_atualizacao = current_date
 				WHERE codigo = ".$this->codigo;
 				
@@ -353,7 +358,7 @@ class classInscricao {
 	
 	public function findInscricaoByCodigo($codInscricao) {
 		$query = "select a.evento, a.ocorrencia, a.pessoa_fisica, a.codigo, a.data_insercao, a.tipo_alojamento, 			
-				a.flag_trabalhador, a.nro_inscricao, a.flag_presente, a.idioma_tema_central
+				a.flag_trabalhador, a.nro_inscricao, a.flag_presente, a.idioma_tema_central, a.contato_responsavel
 				from inscricao a
 				where a.codigo = ".$codInscricao;
 						
@@ -377,6 +382,7 @@ class classInscricao {
 			$objInsc->nro_inscricao = mysql_result($result, 0, "nro_inscricao");
 			$objInsc->flag_presente = mysql_result($result, 0, "flag_presente");
 			$objInsc->idioma_tema_central = mysql_result($result, 0, "idioma_tema_central");
+			//$objInsc->contatoResponsavel = mysql_result($result, 0, "contato_responsavel");
 		
 			return $objInsc;
 		} else {
@@ -498,18 +504,23 @@ class classInscricao {
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 	}
 	
-	public function findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia) {
-		$sql = "select pf.codigo as cod_pf, i.nro_inscricao, pf.cidade, pf.unidade_da_federacao, pf.pais, pf.nome as nome_pf, b.nosso_nro, b.valor_pago, b.data_pago, b.pago
-			from pessoa_fisica pf, inscricao i LEFT OUTER JOIN boleto b ON (i.codigo = b.inscricao)
+	public function findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia, $situacao) {
+		$sql = "select pf.codigo as cod_pf, i.nro_inscricao, pf.cidade, pf.unidade_da_federacao, pf.pais, pf.nome as nome_pf, b.nosso_nro, b.valor_pago, b.data_pago, b.pago, i.usuario_insercao, ((YEAR(oco.inicio)-YEAR(pf.data_nasc)) - (RIGHT(oco.inicio,5)<RIGHT(pf.data_nasc,5))) idade 
+			from pessoa_fisica pf, inscricao i LEFT OUTER JOIN boleto b ON (i.codigo = b.inscricao) LEFT OUTER JOIN ocorrencia oco ON (i.evento = oco.evento and i.ocorrencia = oco.codigo)
 			where i.evento = ".$evento." 
 			and i.ocorrencia = ".$ocorrencia." 
 			and i.pessoa_fisica = pf.codigo ";
-			
+		
 		if ($nroInscricao != "") {
 			$sql .= " and i.nro_inscricao = ".$nroInscricao;
 		}
 		if ($nomePF != "") {
 			$sql .= " and pf.nome like '%".$nomePF."%' ";
+		}
+		if ($situacao != "" && $situacao == 'N') {
+			$sql .= " and (b.pago is null or b.pago = 'N' ) ";
+		} else if ($situacao != "" && $situacao == 'P') {
+			$sql .= " and (b.pago = 'S' ) ";
 		}
 	
 		$sql .= " order by pf.nome, pf.cidade, pf.unidade_da_federacao, pf.pais";

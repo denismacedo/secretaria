@@ -86,8 +86,15 @@ if ($metodo == "numParticipantesCurso") {
 	relParticipantesCursoImp();
 } else if ($metodo == "celularInscritos") {
 	relCelularInscritos();
+} else if ($metodo == "cidadesCriancas") {
+   cidadesCriancas();
+} else if ($metodo == "relDirigentesInscritos") {
+   relDirigentesInscritos();
 }
 
+function relDirigentesInscritos() {
+	include("relDirigentesInscritos.php");
+}
 
 function relParticipantesCursoImp() {
 	include("relParticipantesCursoImp.php");
@@ -128,8 +135,11 @@ function participantesCidade() {
 }
 
 function cidades() {
-
 	include("relCidades.php");
+}
+
+function cidadesCriancas() {
+	include("relCidadesCriancas.php");
 }
 
 

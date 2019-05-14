@@ -36,6 +36,8 @@ function inserir() {
 	$tipoEvento = getPost("tipoEvento");
 	$inicioEvento = getPost("inicioEvento");
 	$terminoEvento = getPost("terminoEvento");
+	$fimInscricao = getPost("fimInscricao");
+	$responsavel = getPost("responsavel");
 	
 	if ($nomeEvento == "" || $tipoEvento == "" || $inicioEvento == "") {
 		$ERROR_MSG = "OS CAMPOS NOME, TIPO E INICIO SAO OBRIGATORIOS!";
@@ -63,6 +65,8 @@ function inserir() {
 			$objOcorrencia->nome = $nomeEvento;
 			$objOcorrencia->inicio = $inicioEvento;
 			$objOcorrencia->termino = $terminoEvento;
+			$objOcorrencia->fim_inscricao = $fimInscricao;
+			$objOcorrencia->responsavel = $responsavel;
 			
 			$objOcorrencia->insert();
 			
@@ -105,9 +109,11 @@ function alterar() {
 	$tipoEvento = getPost("tipoEvento");
 	$inicioEvento = getPost("inicioEvento");
 	$terminoEvento = getPost("terminoEvento");
+	$fimInscricao = getPost("fimInscricao");
+	$responsavel = getPost("responsavel");
 	
-	if ($codEvento == "" || $nomeEvento == "" || $tipoEvento == "" || $inicioEvento == "") {
-		$ERROR_MSG = "OS CAMPOS CODIGO, NOME, TIPO E INICIO SAO OBRIGATORIOS!";
+	if ($codEvento == "" || $nomeEvento == "" || $tipoEvento == "" || $inicioEvento == "" || $responsavel == "") {
+		$ERROR_MSG = "OS CAMPOS CODIGO, NOME, TIPO,  INICIO E CONTATO SAO OBRIGATORIOS!";
 	} else {
 	
 		$objEvento = new classEvento();
@@ -129,6 +135,8 @@ function alterar() {
 			$objOcorrencia->nome = $nomeEvento;
 			$objOcorrencia->inicio = $inicioEvento;
 			$objOcorrencia->termino = $terminoEvento;
+			$objOcorrencia->fim_inscricao = $fimInscricao;
+			$objOcorrencia->responsavel = $responsavel;
 			
 			$objOcorrencia->update();
 			

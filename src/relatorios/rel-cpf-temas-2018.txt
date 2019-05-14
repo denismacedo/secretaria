@@ -1,0 +1,11 @@
+select pf.cpf, pf.sexo, pf.data_nasc, ((YEAR('2018-02-10')-YEAR(pf.data_nasc)) - (RIGHT('2018-02-10',5)<RIGHT(pf.data_nasc,5))) as idade, 
+pf.cidade, pf.pais, p1.nome as tema_especifico, p2.nome tema_atual
+from 
+inscricao i
+left join pessoa_fisica pf ON (i.pessoa_fisica = pf.codigo)
+left join (select p1.inscricao, e1.nome from participante p1, evento e1 where p1.evento = e1.codigo and e1.qualif_evento = 1) p1 ON (i.codigo = p1.inscricao)
+left join (select p2.inscricao, e2.nome from participante p2, evento e2 where p2.evento = e2.codigo and e2.qualif_evento = 2) p2 ON (i.codigo = p2.inscricao)
+where i.evento = 204910 
+and i.ocorrencia = 1
+and pf.cpf is not null
+order by pf.cpf

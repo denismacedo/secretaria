@@ -49,9 +49,10 @@ function buscar() {
 
 	$nroInscricao = getPost("nroInscricao");
 	$nomePF = getPost("nomePF");
+	$situacao = getPost("situacao");
 	
 	$objInscricao = new classInscricao();
-	$resultado = $objInscricao->findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia);
+	$resultado = $objInscricao->findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia, $situacao);
 
 	include("controlePagamento.php");
 }
@@ -60,9 +61,9 @@ function confirmar() {
 	
 	$senha = getPost("senha");
 	//echo "senha:".$senha;
-	if (strtolower($senha) != "132913") {
-		echo "Senha incorreta!";
-	} else {
+//	if (strtolower($senha) != "132913") {
+//		echo "Senha incorreta!";
+//	} else {
 	
 		$evento = $_SESSION["EVENTO_SESSION"];
 		$ocorrencia = $_SESSION["OCORRENCIA_SESSION"];
@@ -130,12 +131,12 @@ function confirmar() {
 			$headers .= "Content-Type: text/html; charset=ISO-8859-1 "; 
 			$headers .= "MIME-Version: 1.0 "; 
 			
-			$corpo = "<br><br>Caro(a) ".$objPF->nome.",<br><br>Sua inscri&ccedil;&atilde;o para a Concafras-PSE 2010 est&aacute; confirmada.<br> Caso tenha alguma d&uacute;vida ou sugest&atilde;o entre em contato conosco pelos emails secretariacastro@concafras2010.org.br ou secretariasp@concafras2010.org.br.<br><br>Muita paz!<br><b><a href='http://www.concafras2010.org.br'>www.concafras2010.org.br</a></b>";
+			$corpo = "<br><br>Caro(a) ".$objPF->nome.",<br><br>Sua inscri&ccedil;&atilde;o para a Concafras est&aacute; confirmada.<br> Caso tenha alguma d&uacute;vida ou sugest&atilde;o entre em contato conosco pelos emails secretariacastro@concafras2010.org.br ou secretariasp@concafras2010.org.br.<br><br>Muita paz!<br><b><a href='http://www.concafras2010.org.br'>www.concafras2010.org.br</a></b>";
 			
 	
 			mail($objPF->email, "Inscrição Confirmada", $corpo, $headers) or die ("Infelizmente o email nao pode ser enviado!");
 		}
-	}
+//	}
 }
 
 
@@ -145,32 +146,32 @@ function corrigir() {
 	$evento = $_SESSION["EVENTO_SESSION"];
 	$ocorrencia = $_SESSION["OCORRENCIA_SESSION"];
 	$nroInscricao = getPost("nroInscricao");
+	$situacao = getPost("situacao");
 		
 	$senha = getPost("senha");
 	
-	if (strtolower($senha) != "132913") {
-		$ERROR_MSG = "Senha incorreta!";
-	} else {
+	//if (strtolower($senha) != "132913") {
+	//	$ERROR_MSG = "Senha incorreta!";
+	//} else {
 	
-		$classBoleto = new classBoleto();
-		$boleto = $classBoleto->findByNroInscricaoAndEvento($nroInscricao, $evento, $ocorrencia);
+	$classBoleto = new classBoleto();
+	$boleto = $classBoleto->findByNroInscricaoAndEvento($nroInscricao, $evento, $ocorrencia);
+
+	$boleto->corrigePagamento();
+
+	//echo "Operação realizada com sucesso!";
+	echo "Pagamento estornado!";
 	
-		$boleto->corrigePagamento();
-	
-		//echo "Operação realizada com sucesso!";
-		$INFO_MSG = "Pagamento estornado!";
-	
-	}
+	//}
 	//buscar();
 	
-	$nomePF = getPost("nomePF");
+	//$nomePF = getPost("nomePF");
 	
-	$objInscricao = new classInscricao();
-	$resultado = $objInscricao->findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia);
+	//$objInscricao = new classInscricao();
+	//$resultado = $objInscricao->findByNroInscricaoAndNome($nroInscricao, $nomePF, $evento, $ocorrencia, $situacao);
 
-	include("controlePagamento.php");
+	//include("controlePagamento.php");
 
-	
 }
 
 ?>

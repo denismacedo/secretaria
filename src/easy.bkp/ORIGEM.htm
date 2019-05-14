@@ -1,0 +1,59 @@
+<?php
+
+include("headerPop.php");
+
+?>
+      <FORM name=cadastroPJForm 
+      action=/Concafras/cadastroPJ.do?method=consultarOrigemPop 
+      method=post><INPUT type=hidden name=tipoPJ> 
+      <TABLE cellSpacing=3 cellPadding=3 width="100%" border=0>
+        <TBODY>
+        <TR>
+          <TD><B>Nome: </B><INPUT maxLength=80 size=60 name=nome> <INPUT 
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px" 
+            type=image src="ORIGEM_arquivos/lupa.gif" align=absMiddle> 
+            &nbsp;&nbsp;&nbsp; <A title="Inserir novo" 
+            style="FONT-WEIGHT: bold; TEXT-DECORATION: none" 
+            href="javascript: submitNovaOrigem();"><IMG 
+            style="BORDER-RIGHT: 0px; BORDER-TOP: 0px; BORDER-LEFT: 0px; BORDER-BOTTOM: 0px" 
+            alt="Inserir novo" src="ORIGEM_arquivos/icon_new.png" 
+            align=absMiddle>Inserir novo</A> </TD></TR>
+        <TR>
+          <TD>
+            <TABLE cellSpacing=1 cellPadding=2 width="100%" border=0>
+              <TBODY>
+              <TR bgColor=#5676a9>
+                <TD width=30 height=20><SPAN 
+                  style="COLOR: #ffffff"><B>CODIGO</B></SPAN></TD>
+                <TD height=20><SPAN 
+                style="COLOR: #ffffff"><B>NOME</B></SPAN></TD>
+                <TD width="10%" height=20><SPAN 
+                  style="COLOR: #ffffff"><B>CIDADE/ESTADO</B></SPAN></TD></TR>
+              <TR bgColor=#f0f0f0>
+                <TD height=20><A 
+                  href="javascript:colaPJ(172, 'AMOR E CARIDADE');">00172</A></TD>
+                <TD><A href="javascript:colaPJ(172, 'AMOR E CARIDADE');">AMOR 
+                  E CARIDADE</A></TD>
+                <TD>GOIANIA/GO</TD></TR>
+              <TR>
+                <TD height=20><A 
+                  href="javascript:colaPJ(53, 'AMOR E CARIDADE JESUS E MARIA');">00053</A></TD>
+                <TD><A 
+                  href="javascript:colaPJ(53, 'AMOR E CARIDADE JESUS E MARIA');">AMOR 
+                  E CARIDADE JESUS E MARIA</A></TD>
+                <TD>RIBEIRAO PRETO/SP</TD></TR>
+              <TR bgColor=#f0f0f0>
+                <TD height=20><A 
+                  href="javascript:colaPJ(112, 'ZELIA MARIA DE SOUZA');">00112</A></TD>
+                <TD><A 
+                  href="javascript:colaPJ(112, 'ZELIA MARIA DE SOUZA');">ZELIA 
+                  MARIA DE SOUZA</A></TD>
+                <TD>PANAMA/GO</TD></TR>
+              <TR>
+                <TD vAlign=center align=middle colSpan=2 height=30><B>Total de 
+                XXXXXXXXXXX registro(s) encontrado(s).</B>        </TD>
+              </TR></TBODY></TABLE></TD></TR></TBODY></TABLE></FORM></TD></TR>
+  <TR>
+    <TD vAlign=center align=right bgColor=#333333 height=15><A 
+      style="COLOR: #ffffff" 
+  href="javascript:window.close()">Fechar</A></TD></TR></TBODY></TABLE></BODY></HTML>

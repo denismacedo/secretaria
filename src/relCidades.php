@@ -12,7 +12,7 @@ include("headerRel.php");
 		  </td>
 	    </tr>
 		<tr>
-			<td colspan="3" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">RELA&Ccedil;&Atilde;O DE CIDADES PARTICIPANTES </span></td>
+			<td colspan="3" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">QUANTIDADE DE PARTICIPANTES POR CIDADE</span></td>
 		</tr>
   <tr>
   	<td colspan="3" align="center">
@@ -37,12 +37,13 @@ include("headerRel.php");
 		}
 	
 		$sql = "select cidade.nome as cidade, estado.nome as estado, pais.nome as pais, count(insc.codigo) as inscritos
-				from cidade cidade, estado estado, pais pais, pessoa_fisica pf, inscricao insc
-				where cidade.unidade_da_federacao = estado.sigla 
+				from cidade cidade, estado estado, pais pais, pessoa_fisica pf, inscricao insc  
+				where cidade.unidade_da_federacao = estado.sigla   and cidade.pais = estado.pais 
 				AND estado.pais = pais.sigla and cidade.pais = pf.pais AND cidade.unidade_da_federacao = pf.unidade_da_federacao AND cidade.nome = pf.cidade
 				 AND pf.codigo = insc.pessoa_fisica AND insc.evento = ".$_SESSION["EVENTO_SESSION"]." AND insc.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]." 
 				group by estado.nome, cidade.nome, pais.nome ".$sortBy;
-		
+
+
 		$resultado = mysql_query($sql);
 		
 		$totalPart = 0;

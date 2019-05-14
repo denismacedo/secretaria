@@ -63,7 +63,7 @@
       </tr>
       <tr>
         <td height="20">CPF:</td>
-        <td valign="middle"><input name="cpf" id="cpf" maxlength="11" size="20" value="<?php echo getAltPost(@$objPF->cpf, 'cpf', $try); ?>" type="text" class="txtNumero" style="font-size:13px;font-weight:bold;" onKeyPress="ehNumerico(this);"> &nbsp;<img title="Procupar por CPF" style="cursor:pointer;" src="imagens/lupa.gif" alt="Procurar por CPF" onclick="searchByCPF();" align="absmiddle" border="0" width="17" height="17">
+        <td valign="middle"><input name="cpf" id="cpf" maxlength="11" size="20" value="<?php echo getAltPost(@$objPF->cpf, 'cpf', $try); ?>" type="text" class="txtNumero" style="font-size:13px;font-weight:bold;" onKeyPress="ehNumerico(this);"> &nbsp;<img title="Procurar por CPF" style="cursor:pointer;" src="imagens/lupa.gif" alt="Procurar por CPF" onclick="searchByCPF();" align="absmiddle" border="0" width="17" height="17">
         </td>
       </tr>
       <tr>

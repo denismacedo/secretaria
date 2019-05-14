@@ -91,9 +91,18 @@
 		<td height="20">In&iacute;cio: </td>
         <td valign="middle"><input name="inicioEvento" maxlength="10" size="14" value="<?php echo getAltPost(formatDate(@$objOcorrencia->inicio), 'inicioEvento', $try); ?>" type="text"  onKeyPress="ehNumerico(this); mascaraData(this)" onBlur="validaData(this);"> (dd/mm/aaaa)</td>
       </tr>
-	  <tr>
+	  <tr bgcolor="#f9f9f9">
 		<td height="20">T&eacute;mino: </td>
         <td valign="middle"><input name="terminoEvento" maxlength="10" size="14" value="<?php echo getAltPost(formatDate(@$objOcorrencia->termino), 'terminoEvento', $try); ?>" type="text"  onKeyPress="ehNumerico(this); mascaraData(this)" onBlur="validaData(this);"> (dd/mm/aaaa)</td>
+      </tr>
+	  <tr>
+		<td height="20">Fim inscri&ccedil;&atilde;o: </td>
+        <td valign="middle"><input name="fimInscricao" maxlength="10" size="14" value="<?php echo getAltPost(formatDate(@$objOcorrencia->fim_inscricao), 'fimInscricao', $try); ?>" type="text"  onKeyPress="ehNumerico(this); mascaraData(this)" onBlur="validaData(this);"> (dd/mm/aaaa)</td>
+      </tr>
+      <tr bgcolor="#f9f9f9">
+        <td height="20">Contato:</td>
+        <td valign="middle"><input name="responsavel" id="responsavel" maxlength="80" size="60" value="<?php echo getAltPost(@$objOcorrencia->responsavel, 'responsavel', $try); ?>" type="text" >
+        </td>
       </tr>
       <tr>
         <td colspan="2" height="10">&nbsp;</td>
@@ -127,6 +136,8 @@
 				<td width="20%" class="tableHeader">Tipo</td>
 				<td width="10%" class="tableHeader">In&iacute;cio</td>
 				<td width="10%" class="tableHeader">T&eacute;rmino</td>
+				<td width="10%" class="tableHeader">Fim Inscri&ccedil;&atilde;o</td>
+				<td width="5%" class="tableHeader"></td>
 				<td width="5%" class="tableHeader"></td>
 				<td width="5%" class="tableHeader"></td>
 			</tr>
@@ -140,6 +151,7 @@
 					$tipo = mysql_result($resultado, $i, "tipo");
 					$inicio = mysql_result($resultado, $i, "inicio");
 					$termino = mysql_result($resultado, $i, "termino");
+					$fimInscricao = mysql_result($resultado, $i, "fim_inscricao");
 									
 					$cor = !$cor;
 					if ($cor) {	$bgcolor = "#F0F0F0"; } else { $bgcolor = "#FFFFFF";	}
@@ -151,8 +163,11 @@
 						  <td ><?php echo $tipo; ?></td>
 						  <td align="center"><?php echo $inicio; ?></td>
 						  <td align="center"><?php echo $termino; ?></td>
+						  <td align="center"><?php echo $fimInscricao; ?></td>
 					  	  <td><a href="#" onclick="submitEditarEvento('<?php echo $codigo; ?>')">Editar</a></td>
 						  <td><a href="#" onclick="submitExcluirEvento('<?php echo $codigo; ?>')">Excluir</a></td>
+						  <td><a target="_blank" href="http://www.concafras.com/secretaria/auto/index.php?evento=<?php echo $codigo; ?>&ocorrencia=1">Inscri&ccedil&atilde;o</a></td>
+						  
 						</tr>
 				<?php
 				}

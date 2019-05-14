@@ -44,7 +44,7 @@ $try = true;
           <td height="5" colspan="2">&nbsp;</td>
         </tr>
         <tr>
-          <td colspan="2" align="center"><a NAME="NEW" href="index.php?evento=<?php echo $objCP->evento; ?>&ocorrencia=<?php echo $objCP->ocorrencia; ?>">Clique aqui para fazer nova inscri&ccedil;&atilde;o</a></td>
+          <td colspan="2" align="center"><a NAME="NEW" href="index.php?evento=<?php echo $_SESSION["EVENTO_SESSION"]; ?>&ocorrencia=<?php echo $_SESSION["OCORRENCIA_SESSION"]; ?>">Clique aqui para fazer nova inscri&ccedil;&atilde;o</a></td>
         </tr>
         <tr>
     <td height="5" colspan="2">&nbsp;</td>
@@ -87,20 +87,12 @@ $try = true;
 			<?php 
 				   if (@$objCP->forma_pagamento == 'PAGSEGURO') {?>
 						<p align="center">Clique na imagem abaixo para efetuar pagamento utilizando boleto bancário, cartão de débito ou cartão de crédito</P>
-<<<<<<< HEAD
 						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a>
-=======
-						<p align="center"><a href="#" style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a>
->>>>>>> origin/master
 						
 						<?php
 						if ($_SESSION["EVENTO_SESSION"] == "203273") { // TODO: remover hardcode
 						?>
-<<<<<<< HEAD
 						<a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=paypal'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PayPal" target="_blank"><img src="imagens/205x30-paypal.png"></a>
-=======
-						<a href="#" style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=paypal'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PayPal" target="_blank"><img src="imagens/205x30-paypal.png"></a>
->>>>>>> origin/master
 						<?php
 				         }
 						?>

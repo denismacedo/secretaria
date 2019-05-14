@@ -38,6 +38,14 @@
         </select>        </td>
       </tr>
       <tr>
+        <td height="30">Vegetarianos ou Todos:</td>
+        <td valign="middle"><select name="vegetariano" id="vegetariano">
+          <option value="T" <?php echo $vegetariano == 'T' ? "SELECTED" : "" ?>>TODOS</option>
+          <option value="S" <?php echo $vegetariano == 'S' ? "SELECTED" : "" ?>>APENAS VEGETARIANO</option>
+          <option value="N" <?php echo $vegetariano == 'N' ? "SELECTED" : "" ?>>APENAS NAO VEGETARIANO</option>
+        </select></td>
+      </tr>
+      <tr>
         <td height="30">Tipo de Participante:</td>
         <td valign="middle"><select name="participante" id="participante">
           <option value="T" <?php echo $participante == 'T' ? "SELECTED" : "" ?>>TODOS</option>
@@ -76,11 +84,11 @@
           <option value="J" <?php echo $idade == 'J' ? "SELECTED" : "" ?>>APENAS JOVENS</option>
           <option value="A" <?php echo $idade == 'A' ? "SELECTED" : "" ?>>APENAS ADULTOS</option>
                                 </select>
-          &nbsp;&nbsp;&nbsp;entre          
+          <!--&nbsp;&nbsp;&nbsp;entre          
           <input style="text-align:center" name="idadeIni" id="idadeIni" maxlength="10" size="5" value="<?php echo $idadeIni; ?>"  type="text" class="txtAUTO" onkeypress="ehNumerico(this);" /> 
           e 
           <input style="text-align:center" name="idadeFim" id="idadeFim" maxlength="10" size="5" value="<?php echo $idadeFim; ?>"  type="text" class="txtAUTO" onkeypress="ehNumerico(this); "  /> 
-          anos </td>
+          anos --></td>
       </tr>
       <tr>
         <td height="30">Usar crach&aacute; infantil? </td>

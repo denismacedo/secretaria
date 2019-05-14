@@ -24,7 +24,7 @@ $try = true;
 			    Informe abaixo o n&uacute;mero da sua inscri&ccedil;&atilde;o.<br />
 			    <br /> 
 			    <span style="font-size:13px;">
-			    Caso n&atilde;o lembre esse n&uacute;mero, envie e-mail para secretaria@concafras.com informando os seus dados para receber o n&uacute;mero da inscri&ccedil;&atilde;o como resposta. </span><br />
+			    Caso n&atilde;o lembre esse n&uacute;mero, entre em contato com <?php echo $objOcorrencia->responsavel; ?> informando os seus dados para receber o n&uacute;mero da inscri&ccedil;&atilde;o como resposta. </span><br />
 			    <br />
 			    <br />
 			    </span></div></td>
@@ -75,7 +75,7 @@ $try = true;
 			       <p align="center" style="font-size:18px;"><b>Aten&ccedil;&atilde;o:</b> A partir de hoje o pagamento dever&aacute; ser&aacute; realizado somente no dia do evento</p>-->
 			       
 			       
-			       
+			       <?php if ($objCP != "") { ?>
 						<p align="center">Clique na imagem abaixo para efetuar pagamento utilizando boleto bancário, cartão de crédito ou cartão de crédito</P>
 						<p align="center"><a style="cursor:hand" onclick="javascript:document.forms[0].action='doInscricao.php?method=pagSeguro'; document.forms[0].submit();" title="Clique para efetuar o pagamento pelo PagSeguro" target="_blank"><img src="imagens/205x30-pagar.gif"></a>
 						
@@ -89,8 +89,7 @@ $try = true;
 						
 						</p>
 				   
-				   
-				   
+				   <?php } ?>
 			   
 				   </td>
 			  </tr>

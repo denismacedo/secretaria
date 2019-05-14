@@ -8,25 +8,30 @@ class classOcorrencia {
   public $termino;
   public $ocorrencia_geradora;
   public $concafras_geradora;
-	
+  public $fim_inscricao;
 	public function classOcorrencia() {
 		//construtor
 	}
 	
 	public function insert() {
+		
 		$sql = "INSERT INTO ocorrencia (
 					codigo,
 					evento,
 					nome,
+					responsavel,
 					inicio,
 					termino,
+					fim_inscricao,
 					ocorrencia_geradora,
 					concafras_geradora) VALUES (
 					".getNullNumber($this->codigo).",
 					".getNullNumber($this->evento).",
 					".getNull($this->nome).",
+					".getNull($this->responsavel).",
 					".getNull(getDbDate($this->inicio)).",
 					".getNull(getDbDate($this->termino)).",
+					".getNull(getDbDate($this->fim_inscricao)).",
 					".getNullNumber($this->ocorrencia_geradora).",
 					".getNullNumber($this->concafras_geradora).")";
 					
@@ -37,10 +42,14 @@ class classOcorrencia {
 		
 			$sql = "UPDATE ocorrencia SET 
 				nome = ".getNull($this->nome).",
+				responsavel = ".getNull($this->responsavel).",
 				inicio=	".getNull(getDbDate($this->inicio)).",
-				termino=	".getNull(getDbDate($this->termino))."
+				termino=	".getNull(getDbDate($this->termino)).",
+				fim_inscricao=	".getNull(getDbDate($this->fim_inscricao))."
 				WHERE codigo = ".$this->codigo." 
 				AND evento = ".$this->evento;
+				
+				//echo $sql;
 		
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 	}
@@ -66,8 +75,10 @@ class classOcorrencia {
 			$objOco->codigo =  mysql_result($resultado,0,"codigo");
 			$objOco->evento = mysql_result($resultado,0,"evento");
 			$objOco->nome = mysql_result($resultado,0,"nome");
+			$objOco->responsavel = mysql_result($resultado,0,"responsavel");
 			$objOco->inicio = mysql_result($resultado,0,"inicio");
 			$objOco->termino = mysql_result($resultado,0,"termino");
+			$objOco->fim_inscricao = mysql_result($resultado,0,"fim_inscricao");
 			
 			return $objOco;
 		} else {
@@ -209,11 +220,11 @@ class classOcorrencia {
 	
 	public function insereComissoes($evento, $ocorrencia, $nextCodigoComissao) {
 		$sql = "insert into ocorrencia (codigo, evento, nome, concafras_geradora, ocorrencia_geradora) 
-select ".$nextCodigoComissao.", codigo, nome, ".$evento.", ".$ocorrencia." from evento where codigo between 1 and 28 order by codigo";
+select ".$nextCodigoComissao.", codigo, nome, ".$evento.", ".$ocorrencia." from evento where codigo between 1 and 31 order by codigo";
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		
 		$sql = "insert into sub_ocorrencia (codigo, ocorrencia, evento, nome, capacidade) 
-select 1, ".$nextCodigoComissao.", codigo, nome, 500 from evento where codigo between 1 and 28 order by codigo";
+select 1, ".$nextCodigoComissao.", codigo, nome, 500 from evento where codigo between 1 and 31 order by codigo";
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		
 	}
@@ -222,10 +233,10 @@ select 1, ".$nextCodigoComissao.", codigo, nome, 500 from evento where codigo be
 		$sql = "delete sub_ocorrencia from sub_ocorrencia, ocorrencia where sub_ocorrencia.evento = ocorrencia.evento
 and sub_ocorrencia.ocorrencia = ocorrencia.codigo
 and ocorrencia.concafras_geradora = ".$evento." and ocorrencia.ocorrencia_geradora = ".$ocorrencia."
-and sub_ocorrencia.evento between 1 and 28";
+and sub_ocorrencia.evento between 1 and 31";
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		
-		$sql = "delete from ocorrencia where evento between 1 and 28 and concafras_geradora = ".$evento." and ocorrencia_geradora = ".$ocorrencia;
+		$sql = "delete from ocorrencia where evento between 1 and 31 and concafras_geradora = ".$evento." and ocorrencia_geradora = ".$ocorrencia;
 		$result = mysql_query($sql) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 		
 	}

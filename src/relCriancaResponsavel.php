@@ -47,7 +47,8 @@ $sql = "select pf.nome as nome_pf,
 		resp.nome as nome_responsavel, 
 		part.doenca, 
 		part.medicamento, 
-		part.observacao 
+		part.observacao,
+		pf.contato_responsavel
 				from  inscricao i
 				LEFT JOIN pessoa_fisica pf ON pf.codigo = i.pessoa_fisica
 				LEFT JOIN ocorrencia x ON i.ocorrencia = x.codigo and i.evento = x.evento
@@ -75,7 +76,8 @@ $sql = "select pf.nome as nome_pf,
 					} else {
 						$bgcolor = "#F9F9F9";
 					}
-					
+					 $telefones = "";
+					 $cursosResponsavel = "";
 					 $responsavel = mysql_result($resultado, $i, "cod_responsavel");
 					 if ($responsavel != "") {
 							 $sqlTel = "select b.ddd, b.numero as telefone from pessoa_fisica_telefone a, telefone b
@@ -84,7 +86,7 @@ $sql = "select pf.nome as nome_pf,
 									and a.numero = b.numero";
 						 $resultadoTel = mysql_query($sqlTel);
 						 
-						 $telefones = "";
+						 
 						 for ($j = 0; $j < mysql_num_rows($resultadoTel); $j++) {
 							$telefones .= "(".mysql_result($resultadoTel, $j, "ddd").")".mysql_result($resultadoTel, $j, "telefone")."<br>";
 						 }
@@ -106,7 +108,7 @@ $sql = "select pf.nome as nome_pf,
 				
 						$resultadoResp = mysql_query($sqlResp);		
 						
-						  $cursosResponsavel = "";
+						  
 						 for ($j = 0; $j < mysql_num_rows($resultadoResp); $j++) {
 							 $qualifResponsavel = mysql_result($resultadoResp, $j, "qualif_evento");
 							 if ($qualifResponsavel == "1") {
@@ -125,6 +127,9 @@ $sql = "select pf.nome as nome_pf,
 									and a.ddd = b.ddd 
 									and a.numero = b.numero";
 						 }
+						 $nomeResponsavel = mysql_result($resultado, $i, "nome_responsavel");
+					} else {
+						$nomeResponsavel = mysql_result($resultado, $i, "contato_responsavel");
 					}
 				
 				?>
@@ -132,7 +137,7 @@ $sql = "select pf.nome as nome_pf,
 							<td height="30"><?php echo mysql_result($resultado, $i, "nome_pf"); ?></td>
 							<td height="30"><?php echo mysql_result($resultado, $i, "cidade")." - ".mysql_result($resultado, $i, "unidade_da_federacao"); ?></td>
 							<td height="30" align="center"><?php echo mysql_result($resultado, $i, "idade"); ?></td>
-							<td height="30"  ><?php echo mysql_result($resultado, $i, "nome_responsavel"); ?></td>
+							<td height="30"  ><?php echo $nomeResponsavel; ?></td>
 							<td height="30" ><?php echo $cursosResponsavel; ?></td>
 							<td height="30" align="center"><?php echo $telefones; ?></td>
 							<td height="30" align="center"><?php echo mysql_result($resultado, $i, "doenca"); ?></td>

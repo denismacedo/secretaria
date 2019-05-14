@@ -81,6 +81,23 @@ include("headerRel.php");
 			$numHomens = mysql_result($resultado, 0, 0);
 			
 			
+			// SELECIONA A QUANTIDADE DE HOMENS EM ALOJAMENTO
+			$sql = "select count(i.codigo)
+			from inscricao i, pessoa_fisica p, ocorrencia o
+			where i.pessoa_fisica = p.codigo
+			and i.evento = ".$_SESSION["EVENTO_SESSION"]." 
+			and i.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]."  
+			and i.evento = o.evento
+			and i.ocorrencia = o.codigo
+			and ((YEAR(o.inicio)-YEAR(data_nasc)) - (RIGHT(o.inicio,5)<RIGHT(data_nasc,5))) >= 12
+			and p.sexo = 'M' and i.tipo_alojamento = 1";
+			
+			$resultado = mysql_query($sql);
+			
+			
+			$numHomensAlojamento = mysql_result($resultado, 0, 0);
+			
+			
 			// SELECIONA A QUANTIDADE DE MULHERES
 			$sql = "select count(i.codigo)
 			from inscricao i, pessoa_fisica p, ocorrencia o
@@ -95,10 +112,39 @@ include("headerRel.php");
 			$resultado = mysql_query($sql);
 			
 			$numMulheres = mysql_result($resultado, 0, 0);
-						
+
+		// SELECIONA A QUANTIDADE DE MULHERES EM ALOJAMENTO
+			$sql = "select count(i.codigo)
+			from inscricao i, pessoa_fisica p, ocorrencia o
+			where i.pessoa_fisica = p.codigo
+			and i.evento = ".$_SESSION["EVENTO_SESSION"]." 
+			and i.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]."  
+			and i.evento = o.evento
+			and i.ocorrencia = o.codigo
+			and ((YEAR(o.inicio)-YEAR(data_nasc)) - (RIGHT(o.inicio,5)<RIGHT(data_nasc,5))) >= 12
+			and p.sexo = 'F' and i.tipo_alojamento = 1";
+			
+			$resultado = mysql_query($sql);
+			
+			$numMulheresAlojamento = mysql_result($resultado, 0, 0);			
+			
+			// SELECIONA A QUANTIDADE DE VEGETARIANOS
+			$sql = "select count(i.codigo)
+			from inscricao i, pessoa_fisica p, ocorrencia o
+			where i.pessoa_fisica = p.codigo
+			and i.evento = ".$_SESSION["EVENTO_SESSION"]." 
+			and i.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]."  
+			and i.evento = o.evento
+			and i.ocorrencia = o.codigo
+			and p.vegetariano = 'S'";
+			
+			$resultado = mysql_query($sql);
+			
+			$numVegetarianos = mysql_result($resultado, 0, 0);			
+			
 			
 			// SELECIONA TOTAL CIDADES
-			$sql = "select count(DISTINCT p.cidade)
+			$sql = "select count(DISTINCT p.cidade, p.unidade_da_federacao, p.pais)
 			from inscricao i, pessoa_fisica p
 			where i.pessoa_fisica = p.codigo
 			and i.evento = ".$_SESSION["EVENTO_SESSION"]." 
@@ -110,7 +156,7 @@ include("headerRel.php");
 			
 			
 			// SELECIONA TOTAL ESTADOS
-			$sql = "select count(DISTINCT p.unidade_da_federacao)
+			$sql = "select count(DISTINCT p.unidade_da_federacao, p.pais)
 			from inscricao i, pessoa_fisica p
 			where i.pessoa_fisica = p.codigo
 			and i.evento = ".$_SESSION["EVENTO_SESSION"]." 
@@ -209,15 +255,28 @@ include("headerRel.php");
             <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numMulheres, 4); ?> </span></td>
           </tr>
 		  <tr>
+            <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px"> QTDE DE MULHERES EM ALOJAMENTO: </span></td>
+            <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numMulheresAlojamento, 4); ?> </span></td>
+          </tr>
+		  <tr>
             <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px"> QTDE DE HOMENS (incluindo jovens de 12 e 13 anos):</span></td>
             <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numHomens, 4); ?> </span></td>
           </tr>
+		  <tr>
+            <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px"> QTDE DE HOMENS EM ALOJAMENTO: </span></td>
+            <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numHomensAlojamento, 4); ?> </span></td>
+          </tr>
+		  <tr>
+            <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px"> QTDE DE VEGETARIANOS: </span></td>
+            <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numVegetarianos, 4); ?> </span></td>
+          </tr>
+
           <!--<tr>
             <td height="30" bgcolor="#e0e0e0"><span style="font-weight: bold; font-size: 12px"> INSCRITOS SEM CURSO </span></td>
-            <td height="30" align="center" bgcolor="#f6f6f6"><span style="font-size: 12px">  <?php echo formatNumber($numInscritosSemCurso, 4); ?>  </span></td>
+            <td height="30" align="center" bgcolor="#f6f6f6"><span style="font-size: 12px">  <?php //echo formatNumber($numInscritosSemCurso, 4); ?>  </span></td>
           </tr>-->
           <tr>
-            <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px">TOTAL DE PRESENTES (desconsiderar):</span></td>
+            <td height="30" align="left" bgcolor="#cccccc"><span style="font-weight: bold; font-size: 12px">TOTAL DE PRESENTES:</span></td>
             <td height="30" align="right" bgcolor="#e0e0e0"><span style="font-size: 12px"> <?php echo formatNumber($numPresentes, 4); ?> </td>
           </tr>
           <tr>

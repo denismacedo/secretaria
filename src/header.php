@@ -1,4 +1,7 @@
 <?php 
+
+	//header("Location: manutencao.php");	
+
 require_once("util/comum.php"); 
 require_once("util/http.php"); 
 include("sessionValidate.php"); 
@@ -96,10 +99,12 @@ body {
 <ul id="cssmenu1">
 <li style="border-left: 1px solid #336699;"><a href="#">Administra&ccedil;&atilde;o</a>
 	<ul>
-	<?php if (isset($_SESSION['NOME_EVENTO_SESSION'])) {?>
+	<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
     	<li><a href="doConfiguracaoCracha.php?method=init">Configurar Crach&aacute;</a></li>
     	<li><a href="doTemas.php?method=init">Cursos/Temas</a></li>
     	<li><a href="doBackup.php?method=init">Gerar arquivo de inscri&ccedil;&otilde;es</a></li>
+    	<li><a target="_blank" href="http://www.concafras.com/secretaria/auto/index.php?evento=<?php echo $_SESSION["EVENTO_SESSION"]; ?>&ocorrencia=1">Link para inscri&ccedil;&otilde;es OnLine</a></li>
+    	<li><a target="_blank" href="easy/index.php?evento=<?php echo $_SESSION["EVENTO_SESSION"]; ?>&ocorrencia=1">Inscri&ccedil;&atilde;o simplificada</a></li>
 		<?php }?>
 		<?php if (isset($_SESSION["USER_SESSION"]) && $_SESSION["USER_SESSION"] == "ADMIN") {?>
     	<li><a href="doEvento.php?method=init">Eventos</a></li>
@@ -113,12 +118,15 @@ body {
     	<li><a href="cadastroPJ.php">Pessoa Jur&iacute;dica</a></li>
     </ul>
 </li>
-<?php if (isset($_SESSION['NOME_EVENTO_SESSION'])) {?>
+<?php if (isset($_SESSION["NOME_EVENTO_SESSION"])) {?>
 <li style="border-left: 1px solid #003366;"><a href="#">Inscri&ccedil;&atilde;o</a>
 	<ul>
     	<li><a href="initControlePresenca.php">Controle de Presen&ccedil;a</a></li>
+		<?php if (isset($_SESSION["NIVEL_ACESSO_SESSION"]) && $_SESSION["NIVEL_ACESSO_SESSION"] > 1) {?>
     	<li><a href="controlePagamento.php">Controle de Pagamento</a></li>
-    	<li><a href="paramPrintCrachaVarios.php">Impress&atilde;o de Crach&aacute;s</a></li>
+		<?php } ?>
+    	<li><a href="paramPrintCrachaVarios.php">Impress&atilde;o em Lote de Crach&aacute;s</a></li>
+    	<li><a href="ilhaImpressao.php">Ilha de Impress&atilde;o</a></li>
     	<li><a href="painel.php">Acompanhamento de vagas em tempo real</a></li>
     </ul>
 </li>
@@ -137,16 +145,18 @@ body {
     	<li><a href="doRelatorio.php?method=participantesCurso">Rela&ccedil;&atilde;o de Participantes por Curso</a></li>
 		<li><a href="doRelatorio.php?method=relParticipantesCursoImp">Rela&ccedil;&atilde;o de Participantes por Curso (impress&atilde;o)</a></li>
     	<li><a href="doRelatorio.php?method=participantesComissao">Rela&ccedil;&atilde;o de Participantes por Comissao</a></li>
-    	<li><a href="doRelatorio.php?method=cidades">Rela&ccedil;&atilde;o de Cidades</a></li>
+    	<li><a href="doRelatorio.php?method=cidades">Quantidade de Pessoas por Cidade</a></li>
     	<li><a href="doRelatorio.php?method=participantesCidade">Rela&ccedil;&atilde;o de Participantes por Cidade</a></li>
     	<li><a href="doRelatorio.php?method=centros">Rela&ccedil;&atilde;o de Centros Participantes</a></li>
     	<li><a href="doRelatorio.php?method=relInscritosTE">Rela&ccedil;&atilde;o de inscritos em TE</a></li>
     	<li><a href="doRelatorio.php?method=relInscritosTA">Rela&ccedil;&atilde;o de inscritos em TA</a></li>
+		<li><a href="doRelatorio.php?method=relDirigentesInscritos">Rela&ccedil;&atilde;o de dirigentes inscritos</a></li>
     	<li><a href="doRelatorio.php?method=dadosEvento">Dados do Evento</a></li>
 		<li><a href="#"><b>CONCAFRINHAS</b></a>
 			<ul>
 				<li><a href="doRelatorio.php?method=criancasResponsaveis">Rela&ccedil;&atilde;o Crian&ccedil;as e Respons&aacute;veis</a></li>
 				<li><a href="doRelatorio.php?method=criancasResponsaveisCurso">Rela&ccedil;&atilde;o Crian&ccedil;as e Respons&aacute;veis por Curso</a></li>
+			    	<li><a href="doRelatorio.php?method=cidadesCriancas">Quantidade de Crian&ccedil;as por Cidade</a></li>
 			</ul>
 		</li>
     </ul>
@@ -162,15 +172,15 @@ body {
   				
   					
   						<td class="labelUsuario" align="right" width="38%" nowrap="nowrap">
-  						<img src="imagens/user.gif" align="absmiddle"> &nbsp; <?php echo $_SESSION['USER_SESSION']; ?> &nbsp;
+  						<img src="imagens/user.gif" align="absmiddle"> &nbsp; <?php echo $_SESSION["USER_SESSION"]; ?> &nbsp;
   						&nbsp;
 						<?php
 						
-							if (isset($_SESSION['NOME_EVENTO_SESSION'])) {
+							if (isset($_SESSION["NOME_EVENTO_SESSION"])) {
 							
 							?>
   						
-  						-  &nbsp; &nbsp; <?php echo $_SESSION['NOME_EVENTO_SESSION']; ?> &nbsp;
+  						-  &nbsp; &nbsp; <?php echo $_SESSION["NOME_EVENTO_SESSION"]; ?> &nbsp;
   						&nbsp;
 						
 						<?php } ?>

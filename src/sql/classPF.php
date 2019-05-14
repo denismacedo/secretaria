@@ -40,6 +40,7 @@ class classPF {
   public $apelido;
   public $cpf;
   public $vegetariano;
+  public $contato_responsavel;
 	
 	public function classPF() {
 		//construtor
@@ -89,7 +90,7 @@ class classPF {
 				usuario_atualizacao,
 				email,
 				tipo_pf,
-				apelido,cpf, vegetariano) VALUES (
+				apelido,cpf, vegetariano, contato_responsavel) VALUES (
 				".getNull($this->sexo).",
 				".getNull($this->rua_ou_quadra).",
 				".getNull($this->complemento_ou_conjunto).",
@@ -114,7 +115,8 @@ class classPF {
 				1,
 				".getNull($this->apelido).",
 				".getNull($this->cpf).",
-				".getNull($this->vegetariano)."
+				".getNull($this->vegetariano).",
+				".getNull($this->contato_responsavel)."
 				)";
 		} else {
 		
@@ -138,6 +140,7 @@ class classPF {
 				apelido=	".getNull($this->apelido).",
 				cpf=	".getNull($this->cpf).",
 				vegetariano=	".getNull($this->vegetariano).",
+				contato_responsavel=	".getNull($this->contato_responsavel).",
 				data_atualizacao=	current_date
 				WHERE codigo = ".$this->codigo;
 		}
@@ -339,7 +342,8 @@ class classPF {
 					p.responsavel,
 					p.apelido,
 					p.cpf,
-					p.vegetariano
+					p.vegetariano,
+					p.contato_responsavel
 					from pessoa_fisica p
 					where p.codigo = ".$codigo;
 
@@ -376,20 +380,19 @@ class classPF {
 			$objPF->apelido = mysql_result($resultado,0,"apelido");
 			$objPF->cpf = mysql_result($resultado,0,"cpf");
 			$objPF->vegetariano = mysql_result($resultado,0,"vegetariano");			
+			$objPF->contato_responsavel = mysql_result($resultado,0,"contato_responsavel");			
 			
 			// RECUPERA OS DETALHES DA CIDADE
 			if (isset($objPF->cidade)) {
 				$cCid = new classCidade();
 				$objPF->objCidade = $cCid->findByPK($objPF->pais, $objPF->unidade_da_federacao, $objPF->cidade);
-			}
-			
+			}			
 			
 			// RECUPERA OS DETALHES DO RESPONSAVEL
-			if (isset($objPF->responsavel)) {
-				$cResp = new classPF();
+			if (isset($objPF->responsavel) && $objPF->responsavel != $objPF->codigo) {
+				$cResp = new classPF();				
 				$objPF->objResponsavel = $cResp->findByCodigo($objPF->responsavel);
-			}
-			
+			}			
 			
 			// RECUPERA A ORIGEM DA PF
 			$cOrig = new classOrigem();
@@ -402,7 +405,6 @@ class classPF {
 			$objPF->objParticularidade = $cPart->findByPK($objPF->codigo);
 			
 			
-			
 			// RECUPERA OS TELEFONES DA PF
 			$selectTelefones = "select b.ddd, b.numero, b.tipo_telefone
 			from pessoa_fisica_telefone a, telefone b
@@ -410,6 +412,7 @@ class classPF {
 			and a.ddd = b.ddd
 			and a.numero = b.numero";
 			
+			$resultado = "";
 			$resultado = mysql_query($selectTelefones) or die('ERRO AO ACESSAR O BANCO DE DADOS: ' . mysql_error());
 			
 			$linhas = mysql_num_rows($resultado);

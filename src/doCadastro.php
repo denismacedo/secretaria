@@ -217,8 +217,8 @@ function salvar() {
 	// VALIDA OS CAMPOS
 	$ok = false;
 	$erro = "";
-	if ($nome == "" || $dataNasc == "" || $sexo == "") {
-		$erro = "OS CAMPOS NOME, DATA DE NASCIMENTO E SEXO S&Atilde;O DE PREENCHIMENTO OBRIGAT&Oacute;RIO!";
+	if ($nome == "" || $dataNasc == "" || $sexo == "" || $codCidade == "") {
+		$erro = "OS CAMPOS NOME, DATA DE NASCIMENTO, SEXO E CIDADE S&Atilde;O DE PREENCHIMENTO OBRIGAT&Oacute;RIO!";
 	}
 
 	$objPF = new classPF();

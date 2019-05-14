@@ -86,6 +86,25 @@ class classCracha {
 		return $objCracha;
 	}
 	
+	public function clone_cracha() {
+		
+		$objCracha = new classCracha();
+		
+		
+			$objCracha->evento = $this->evento;
+			$objCracha->ocorrencia = $this->ocorrencia;
+			$objCracha->tamanho_fonte = $this->tamanho_fonte;
+			$objCracha->largura = $this->largura;
+			$objCracha->altura = $this->altura;
+			$objCracha->margem_superior = $this->margem_superior;
+			$objCracha->margem_esquerda = $this->margem_esquerda;
+			$objCracha->fonte_nome = $this->fonte_nome;
+			$objCracha->fonte_cidade = $this->fonte_cidade;
+		
+		
+		return $objCracha;
+	}
+	
 	public function getEvento() {
 		return $this->evento;
 	}

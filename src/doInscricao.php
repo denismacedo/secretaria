@@ -167,7 +167,7 @@ function exibeTelaInscricao($tipoMsg, $msg) {
 				$objPart->prioridade = mysql_result($resultado, $i, "prioridade");
 				
 				$participantesOpcao[$i] = $objPart;
-	
+
 			}
 		}
 
@@ -693,7 +693,7 @@ function buildObjCracha($objInscricao, $objPF, $objOco, $objCracha, $showCursos,
 			$objCurso = new cursoBean();
 			$objCurso->nome = mysql_result($resultado, $i, "nome");
 			if (mysql_result($resultado, $i, "qualificacao") != "" && $tipoInscricao != "INFANTIL") {
-				$objCurso->nome = (mysql_result($resultado, $i, "qualificacao") == "TEMA ATUAL" ? "Atual" : "Específico")." - ".$objCurso->nome;
+				$objCurso->nome = (mysql_result($resultado, $i, "qualificacao") == "TEMA ATUAL" ? "Atual" : "Especifico")." - ".$objCurso->nome;
 			}
 			
 			$objCurso->nome = strtoupper($objCurso->nome);
@@ -715,8 +715,75 @@ function buildObjCracha($objInscricao, $objPF, $objOco, $objCracha, $showCursos,
 	$objCracha->tipoInscricao = $tipoInscricao;
 	$objCracha->nomeCracha = $nomeCracha;
 	$objCracha->cursos = $cursos;
-	if ($objPF->objResponsavel != NULL && $objPF->objResponsavel != "") {
-		$objCracha->responsavel = buildNomeCracha($objPF->objResponsavel->nome, $objPF->objResponsavel->apelido);
+	if ($tipoInscricao == "INFANTIL") {
+		if ($objInscricao->contatoResponsavel != "") {
+			$objCracha->responsavel = $objInscricao->contatoResponsavel;
+		} else if ($objPF->objResponsavel != NULL && $objPF->objResponsavel != "") {
+			$objCracha->responsavel = buildNomeCracha($objPF->objResponsavel->nome, $objPF->objResponsavel->apelido);
+		}
+	}
+	
+	return $objCracha;
+}
+
+
+
+function buildObjCrachaForVarios($objInscricao, $objPF, $objOco, $objCracha, $showCursos, $showComissao, $showSalas) {
+	
+	// TRATA A DATA
+	$diff = dateDiff($objPF->data_nasc, $objOco->inicio);
+	if ($diff < 12) {
+		$tipoInscricao = "INFANTIL";
+	} else if ($diff < 14) {
+		$tipoInscricao = "JOVEM";
+	} else {
+		$tipoInscricao = "ADULTO";
+	}
+	$objCracha->idade = $diff;
+		
+	$nomeCracha = buildNomeCracha($objPF->nome, $objPF->apelido);
+	
+	$resultado = $objInscricao->findParticipantesCracha($objInscricao->codigo);
+	
+	// VARRE OS VALORES RETORNADOS E MONTA UM ARRAY DE CURSOS
+	$cursos = array();
+	$linhas = mysql_num_rows($resultado);
+	$count = 0;
+	for ($i = 0; $i < $linhas; $i++) {
+		if ((mysql_result($resultado, $i, "cod_tipo_evento") == 1 && $showCursos)
+		|| (mysql_result($resultado, $i, "cod_tipo_evento") == 8 && $showComissao)) {
+			$objCurso = new cursoBean();
+			$objCurso->nome = mysql_result($resultado, $i, "nome");
+			if (mysql_result($resultado, $i, "qualificacao") != "" && $tipoInscricao != "INFANTIL") {
+				$objCurso->nome = (mysql_result($resultado, $i, "qualificacao") == "TEMA ATUAL" ? "Atual" : "Especifico")." - ".$objCurso->nome;
+			}
+			
+			$objCurso->nome = strtoupper($objCurso->nome);
+			
+			$objCurso->tipo = mysql_result($resultado, $i, "tipo");
+			if ($showSalas) {
+				$objCurso->bloco = mysql_result($resultado, $i, "numero_bloco");
+				$objCurso->andar = mysql_result($resultado, $i, "andar");
+				$objCurso->sala = mysql_result($resultado, $i, "numero_sala");
+			}
+			
+			$cursos[$count] = $objCurso;
+			$count++;
+		}
+	}
+	
+	$objCracha->objPF = $objPF;
+	$objCracha->objInscricao = $objInscricao;
+	$objCracha->tipoInscricao = $tipoInscricao;
+	$objCracha->nomeCracha = $nomeCracha;
+	$objCracha->cursos = $cursos;
+	
+	if ($tipoInscricao == "INFANTIL") {
+		if ($objInscricao->contatoResponsavel != "") {
+			$objCracha->responsavel = $objInscricao->contatoResponsavel;
+		} else if ($objPF->objResponsavel != NULL && $objPF->objResponsavel != "") {
+			$objCracha->responsavel = buildNomeCracha($objPF->objResponsavel->nome, $objPF->objResponsavel->apelido);
+		}
 	}
 	
 	return $objCracha;
@@ -775,6 +842,7 @@ function printCrachaVarios() {
 	$print = getPost("print");
 	$crachaInfantil = getPost("crachaInfantil");
 	$semCurso = getPost("semCurso");
+	$vegetariano = getPost("vegetariano");
 
 	$objOco = new classOcorrencia();
 	$objOco = $objOco->findByCodigo($_SESSION["EVENTO_SESSION"], $_SESSION["OCORRENCIA_SESSION"]);
@@ -783,7 +851,7 @@ function printCrachaVarios() {
 				where a.evento = ".$_SESSION["EVENTO_SESSION"]." and a.ocorrencia = ".$_SESSION["OCORRENCIA_SESSION"]." 
 				and a.pessoa_fisica = b.codigo 
 				and a.evento = d.evento
-				and a.ocorrencia = d.codigo
+				and a.ocorrencia = d.codigo :vegetarianos :boletoNaoPagoSemBoleto
 				:codInscricao :nomePF :impressos :participante :idade :idIni :idFim :dataIni :dataFim";
 		
 		if ($codInscricao != "") {
@@ -798,6 +866,8 @@ function printCrachaVarios() {
 			$sql = str_replace(":selCountCurso", "", $sql);
 			$sql = str_replace(":joinBoleto", "", $sql);
 			$sql = str_replace(":joinSemCurso", "", $sql);
+			$sql = str_replace(":boletoNaoPagoSemBoleto", "", $sql);
+			$sql = str_replace(":vegetarianos", "", $sql);
 						
 			$sql = str_replace(":codInscricao", " AND a.nro_inscricao = $codInscricao", $sql);
 						
@@ -805,14 +875,16 @@ function printCrachaVarios() {
 			
 			$sql = str_replace(":codInscricao", " ", $sql);
 			
-			if ($situacao != "" && $situacao != "T") {
-				if ($situacao == 'P') {
-					$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND c.pago = 'S') ", $sql);
-				} else if ($situacao == 'N') {
-					$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND (c.pago = 'N' OR c.pago is NULL) ) ", $sql);
-				}
+			if ($situacao == 'P') {
+				$sql = str_replace(":joinBoleto", " INNER JOIN boleto c ON (a.codigo = c.inscricao AND c.pago = 'S') ", $sql);
 			} else {
 				$sql = str_replace(":joinBoleto", "", $sql);
+			}
+
+			if ($situacao == 'N') {
+				$sql = str_replace(":boletoNaoPagoSemBoleto", " and a.codigo not in (select inscricao from boleto where pago = 'S') ", $sql);
+			} else {
+				$sql = str_replace(":boletoNaoPagoSemBoleto", "", $sql);
 			}
 	
 			if ($participante != "" && $participante != "T") {
@@ -823,6 +895,13 @@ function printCrachaVarios() {
 				}
 			} else {
 				$sql = str_replace(":participante", "", $sql);
+			}
+			if ($vegetariano == "S") {
+				$sql = str_replace(":vegetarianos", " AND b.vegetariano = 'S' ", $sql);
+			} else if ($vegetariano == "N") {
+				$sql = str_replace(":vegetarianos", " AND (b.vegetariano = 'N' or b.vegetariano is NULL) ", $sql);
+			} else {
+				$sql = str_replace(":vegetarianos", " ", $sql);
 			}
 			
 			if ($nomePF != "") {
@@ -839,11 +918,11 @@ function printCrachaVarios() {
 			
 			if ($idade != "" && $idade != 'T') {
 				if ($idade == 'C') {
-					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) < 12 ", $sql);
+					$sql = str_replace(":idade", " AND DATEDIFF(d.inicio,b.data_nasc)/365  < 12 ", $sql);
 				} else if ($idade == 'J') {
-					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc))) >= 12 AND ((YEAR(b.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) < 14) ", $sql);
+					$sql = str_replace(":idade", " AND (DATEDIFF(d.inicio,b.data_nasc)/365  >= 12 AND DATEDIFF(d.inicio,b.data_nasc)/365  < 14) ", $sql);
 				} else {
-					$sql = str_replace(":idade", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= 14 ", $sql);
+					$sql = str_replace(":idade", " AND DATEDIFF(d.inicio,b.data_nasc)/365  >= 14 ", $sql);
 				}
 			} else {
 				$sql = str_replace(":idade", "", $sql);
@@ -851,12 +930,12 @@ function printCrachaVarios() {
 			
 			
 			if ($idadeIni != "") {
-				$sql = str_replace(":idIni", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) >= ".$idadeIni." ", $sql);
+				$sql = str_replace(":idIni", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)-RIGHT(b.data_nasc,5))) >= ".$idadeIni." ", $sql);
 			} else {
 				$sql = str_replace(":idIni", "", $sql);
 			}
 			if ($idadeFim != "") {
-				$sql = str_replace(":idFim", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)<RIGHT(b.data_nasc,5))) <= ".$idadeFim." ", $sql);
+				$sql = str_replace(":idFim", " AND ((YEAR(d.inicio)-YEAR(b.data_nasc)) - (RIGHT(d.inicio,5)-RIGHT(b.data_nasc,5))) <= ".$idadeFim." ", $sql);
 			} else {
 				$sql = str_replace(":idFim", "", $sql);
 			}
@@ -922,19 +1001,25 @@ function printCrachaVarios() {
 			}
 		
 			$cor = false;
+			
+			$objCracha = new classCracha();
+			$objCracha = $objCracha->findCrachaByEvento($_SESSION["EVENTO_SESSION"],  $_SESSION["OCORRENCIA_SESSION"]);
+				
 			for ($i = 0; $i < $linhas; $i++) {
 			
 				$objPF = new classPF();
 				$objPF = $objPF->findByCodigo(mysql_result($resultado, $i, "codigo"));
 	
 				$objInscricao = new classInscricao();
-				$objInscricao = $objInscricao->findInscricaoByCodigo(mysql_result($resultado, $i, "cod_insc"));
+				//$objInscricao = $objInscricao->findInscricaoByCodigo(mysql_result($resultado, $i, "cod_insc"));
+				$objInscricao->nro_inscricao = mysql_result($resultado, $i, "nro_inscricao");
+				$objInscricao->codigo = mysql_result($resultado, $i, "cod_insc");
 				
-				$objCracha = new classCracha();
-				$objCracha = $objCracha->findCrachaByEvento($_SESSION["EVENTO_SESSION"],  $_SESSION["OCORRENCIA_SESSION"]);
+				$objCrachaClone = $objCracha->clone_cracha();
 				
-				$crachas[$i] = buildObjCracha($objInscricao, $objPF, $objOco, $objCracha, $showCursos, $showComissao, $showSalas);
-				
+				$crachas[$i] = buildObjCrachaForVarios($objInscricao, $objPF, $objOco, $objCrachaClone, $showCursos, $showComissao, $showSalas);
+				//echo $i."<br>";
+				//flush();
 				if ($print == 'S') {
 					// MARCA A INSCRICAO COMO IMPRESSA
 					$objInscricao->confirmCrachaImpresso($objInscricao->codigo);

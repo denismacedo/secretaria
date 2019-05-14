@@ -49,7 +49,8 @@
 			{
 			   //alert("Operação realizada com sucesso!");
 			   alert(req.responseText);
-			   loading();
+			   //loading();
+			   //alert('wait');
 			   document.pesquisaForm.submit();
 			} 
 			else 
@@ -110,9 +111,8 @@
 		url += "&sendEmail=" + sendEmail;
 		
 		
-		var senha = document.getElementById("senha").value;
-		
-		url += "&senha=" + senha;;
+		//var senha = document.getElementById("senha").value;
+		//url += "&senha=" + senha;;
 		
 		submitConfirmaPagamento(url);
 	}
@@ -120,14 +120,15 @@
 	function corrigePagamento(nroInscricao) {
 		
 		
-		var senha = document.getElementById("senha").value;
-		
 		var url = "doControlePagamento.php?method=corrigir";
-		url += "&nroInscricao=" + nroInscricao + "&senha=" + senha;
+		url += "&nroInscricao=" + nroInscricao;
 		
-		loading();
-		document.pesquisaForm.action = url;
-		document.pesquisaForm.submit();
+		//var senha = document.getElementById("senha").value;
+		//url += "&senha=" + senha;;
+		
+		//loading();
+		//document.pesquisaForm.action = url;
+		//document.pesquisaForm.submit();
 		
 		submitConfirmaPagamento(url);
 	}
@@ -233,7 +234,15 @@ function executaAcao() {
         <td height="34">Inscri&ccedil;&atilde;o:</td>
         <td><input name="nroInscricao" id="nroInscricao" maxlength="10" size="20" value="<?php echo formatNumber(getPost("nroInscricao"), 5); ?>" type="text" onKeyUp="ehNumerico(this);"> (apenas números)</td>
       </tr>
-      
+	 <tr>
+        <td height="30">Situa&ccedil;&atilde;o da Inscri&ccedil;&atilde;o: </td>
+        <td valign="middle"><select name="situacao" id="situacao">
+          <option value="T" <?php echo $situacao == 'T' ? "SELECTED" : "" ?>>TODAS</option>
+          <option value="P" <?php echo $situacao == 'P' ? "SELECTED" : "" ?>>APENAS PAGAS</option>
+          <option value="N" <?php echo $situacao == 'N' ? "SELECTED" : "" ?>>APENAS N&Atilde;O PAGAS</option>
+        </select>        </td>
+      </tr>
+           
       <tr align="center" bgcolor="#f0f0f0">
         <td height="20" colspan="2" align="center">
 		  <input name="btBuscar" id="btBuscar" value="Pesquisar" type="submit" style="text-transform:capitalize; font-size:12px; font-weight:bold;"></td>
@@ -253,7 +262,7 @@ function executaAcao() {
           <tbody>
             
             <tr bgcolor="#f0f0f0">
-              <td height="20" colspan="8" align="center" class="explicacao">
+              <td height="20" colspan="10" align="center" class="explicacao">
 			    <strong>
 			    <?php
 			  	if ($numRows <= 0) {
@@ -270,6 +279,8 @@ function executaAcao() {
             <tr bgcolor="#f0f0f0" style="font-size:12px;">
               <td width="10%" height="28" bgcolor="#999999" ><div align="center"><strong>Inscri&ccedil;&atilde;o</strong></div></td>
               <td width="30%" bgcolor="#999999" ><strong>Nome</strong></td>
+              <td width="5%" bgcolor="#999999" align="center"><strong>Idade</strong></td>
+              <td width="5%" bgcolor="#999999" align="center"><strong>Internet</strong></td>
               <td width="20%" bgcolor="#999999" ><strong>Cidade/UF</strong></td>
               <td width="10%" bgcolor="#999999" ><div align="center"><strong>Data Pag. <br />
               </strong>(dd/mm/aaaa)</div></td>
@@ -287,6 +298,8 @@ function executaAcao() {
 			for ($i = 0; $i < $numRows; $i++) {
 				$numeroInscricao = mysql_result($resultado, $i, "nro_inscricao");
 				$nomePessoaFisica = mysql_result($resultado, $i, "nome_pf");
+				$idade = mysql_result($resultado, $i, "idade");
+				$internet = mysql_result($resultado, $i, "usuario_insercao");
 				$cidade = mysql_result($resultado, $i, "cidade")."/".mysql_result($resultado, $i, "unidade_da_federacao")."/".mysql_result($resultado, $i, "pais");
 				$valorPago = mysql_result($resultado, $i, "valor_pago");
 				$nossoNro = mysql_result($resultado, $i, "nosso_nro");
@@ -303,11 +316,13 @@ function executaAcao() {
 					<tr bgcolor="#FFFFCC">
 					  <td height="26" style="color:#0000FF; font-weight:bold;" align="center"><?php echo formatNumber($numeroInscricao, 5); ?></td>
 					  <td ><?php echo $nomePessoaFisica; ?></td>
+					  <td  align="center"><?php if ($idade != "" && $idade < 12) { echo "<span style='color:#00aa00;font-weight:bold;'>INFANTIL</span>"; } else { echo "ADULTO"; } ?></td>
+					  <td align="center" ><?php if ($internet == "1") { echo "<span style='color:#0000aa;font-weight:bold;'>SIM</span>"; } else { echo "NAO"; } ?></td>
 					  <td ><?php echo $cidade; ?></td>
 					  <td align="center"><?php echo formatDate($dataPago); ?></td>
 					  <td align="center"><?php echo $valorPago; ?></td>
 					  <td align="center"><?php echo $nossoNro; ?></td>
-					  <td style="color:#009933; font-weight:bold;" align="center">CONFIRMADO <input type="image" src="imagens/undo.gif" name="btnCorrigirPagamento_<?php echo $numeroInscricao; ?>" id="btnCorrigirPagamento_<?php echo $numeroInscricao; ?>" onclick="document.getElementById('hdnInsc').value = '<?php echo $numeroInscricao; ?>'; document.getElementById('hdnAcao').value ='CORRIGIR'; showDivPassword(); return false;" style="vertical-align:middle; border:0px; padding-left:2px;" alt="Corrigir pagamento" title="Corrigir pagamento"></td>
+					  <td style="color:#009933; font-weight:bold;" align="center">CONFIRMADO <input type="image" src="imagens/undo.gif" name="btnCorrigirPagamento_<?php echo $numeroInscricao; ?>" id="btnCorrigirPagamento_<?php echo $numeroInscricao; ?>" onclick="document.getElementById('hdnInsc').value = '<?php echo $numeroInscricao; ?>'; document.getElementById('hdnAcao').value ='CORRIGIR'; showDivPassword(); executaAcao(); return false;" style="vertical-align:middle; border:0px; padding-left:2px;" alt="Corrigir pagamento" title="Corrigir pagamento"></td>
 					   <td  align="center"><input type="button" value="Imprimir" name="btnImprimeCracha_<?php echo $numeroInscricao; ?>" id="btnImprimeCracha_<?php echo $numeroInscricao; ?>" onclick="submitCracha(<?php echo $cod_pf; ?>)"></td>
 					</tr>
 				
@@ -319,11 +334,13 @@ function executaAcao() {
 					<tr bgcolor="<?php echo $bgcolor; ?>">
 					  <td height="26" style="color:#0000FF; font-weight:bold;" align="center"><input type="hidden" name="numInsc" id="numInsc" value="<?php echo $numeroInscricao; ?>" /><?php echo formatNumber($numeroInscricao, 5); ?></td>
 					  <td ><?php echo $nomePessoaFisica; ?></td>
+					  <td  align="center"><?php if ($idade != "" && $idade < 12) { echo "<span style='color:#00aa00;font-weight:bold;'>INFANTIL</span>"; } else { echo "ADULTO"; } ?></td>
+					  <td align="center" ><?php if ($internet == "1") { echo "<span style='color:#0000aa;font-weight:bold;'>SIM</span>"; } else { echo "NAO"; } ?></td>
 					  <td ><?php echo $cidade; ?></td>
 					  <td  align="center"><input type="text" size="12" maxlength="10" name="txtDataPago_<?php echo $numeroInscricao; ?>" id="txtDataPago_<?php echo $numeroInscricao; ?>" style="text-align:center;" onKeyUp="ehNumerico(this); mascaraData(this)" onBlur="validaData(this);" value="<?php echo formatDate($dataPago); ?>"></td>
 					  <td  align="center"><input type="text" size="12" maxlength="15" name="txtValorPago_<?php echo $numeroInscricao; ?>" id="txtValorPago_<?php echo $numeroInscricao; ?>" value="<?php echo $valorPago; ?>" style="text-align:center;"></td>
 					  <td  align="center"><input type="text" size="12" maxlength="30" name="txtDocumento_<?php echo $numeroInscricao; ?>" id="txtDocumento_<?php echo $numeroInscricao; ?>" value="<?php echo $nossoNro; ?>" style="text-align:center;" onKeyUp="ehNumerico(this);"></td>
-					  <td  align="center"><input type="button" value="Confirmar" name="btnConfirmarPagamento_<?php echo $numeroInscricao; ?>" id="btnConfirmarPagamento_<?php echo $numeroInscricao; ?>" onclick="document.getElementById('hdnInsc').value = '<?php echo $numeroInscricao; ?>';  document.getElementById('hdnAcao').value ='CONFIRMAR'; showDivPassword();"></td>
+					  <td  align="center"><input type="button" value="Confirmar" style="font-weight:bold;" name="btnConfirmarPagamento_<?php echo $numeroInscricao; ?>" id="btnConfirmarPagamento_<?php echo $numeroInscricao; ?>" onclick="document.getElementById('hdnInsc').value = '<?php echo $numeroInscricao; ?>';  document.getElementById('hdnAcao').value ='CONFIRMAR';  showDivPassword(); executaAcao(); "></td>
 					  <td  align="center"><input type="button" value="Imprimir" name="btnImprimeCracha_<?php echo $numeroInscricao; ?>" id="btnImprimeCracha_<?php echo $numeroInscricao; ?>" onclick="submitCracha(<?php echo $cod_pf; ?>)"></td>
 					  
 					</tr>
@@ -337,7 +354,7 @@ function executaAcao() {
 				?>
           </tbody>
           <tr align="center" bgcolor="#f0f0f0">
-            <td height="20" colspan="8" align="right" bgcolor="#CCCCCC">&nbsp;</td>
+            <td height="20" colspan="10" align="right" bgcolor="#CCCCCC">&nbsp;</td>
           </tr>
         </table>
 					

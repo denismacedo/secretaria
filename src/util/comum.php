@@ -64,6 +64,28 @@
 	
 	}
 	
+	function formatDateTime($data) {
+		$retorno = "";
+		
+		if ($data != "" && strlen($data) >= 10) {
+		
+			if (strpos($data, "/") === false) {
+		
+			$retorno = substr($data, 8, 2)."/".
+						substr($data, 5, 2)."/".
+						substr($data, 0, 4)." ".
+						substr($data, 11, 8); //2018-02-04 00:18:51
+						
+			} else {
+				$retorno = $data;
+			}
+			
+		}
+		
+		return $retorno;
+	
+	}
+	
 	function getDBDate($data) {
 		$retorno = "";
 		

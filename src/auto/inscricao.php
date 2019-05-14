@@ -13,7 +13,7 @@ $try = true;
 		<tr>
 				<td>
 	
-	  <table align="center" border="0" cellpadding="2" cellspacing="1" width="700">
+	  <table align="center" border="0" cellpadding="2" cellspacing="1" width="800">
         
           <tr bgcolor="#333333">
             <td height="40" colspan="2" bgcolor="#999999">
@@ -38,7 +38,7 @@ $try = true;
           <td valign="middle"><input name="cpf" id="cpf" maxlength="15" size="20" value="<?php echo getAltPost(@$objPF->cpf, 'cpf', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"> (somente n&uacute;meros)
               <!-- &nbsp;<img style="" src="imagens/lupa.gif" alt="Procurar" onclick="findPF();" align="absmiddle" border="0" width="17" height="17">--></td>
         </tr>
-        <tr>
+        <tr bgcolor="#f9f9f9">
           <td height="30">Nome:</td>
           <td valign="middle"><input name="nome" id="nome" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->nome, 'nome', $try); ?>" type="text" class="txt">
               <!-- &nbsp;<img style="" src="imagens/lupa.gif" alt="Procurar" onclick="findPF();" align="absmiddle" border="0" width="17" height="17">--></td>
@@ -57,7 +57,7 @@ $try = true;
             <input type="radio" name="sexo" value="F" style="border: 0px;" <?php echo getChecked(getAltPost(@$objPF->sexo, 'sexo', $try), 'F'); ?> >
             Feminino </td>
         </tr>
-        <tr>
+        <!--tr>
           <td height="30">Rua:</td>
           <td><input name="rua" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->rua_ou_quadra, 'rua', $try); ?>" type="text">
             &nbsp;&nbsp;Nro:&nbsp;&nbsp;
@@ -73,8 +73,8 @@ $try = true;
         <tr>
           <td height="30">Bairro:</td>
           <td><input name="bairro" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->bairro, 'bairro', $try); ?>" type="text"></td>
-        </tr>
-        <tr bgcolor="#f9f9f9">
+        </tr-->
+        <tr>
           <!--<td height="30">Cidade:</td>
           <td><input name="codCidade" id="codCidade" value="<?php if (isset($objPF->objCidade)) { echo @$objPF->objCidade->nome."/".@$objPF->objCidade->unidade_da_federacao."/".@$objPF->objCidade->pais; } else {echo getAltPost('', 'codCidade', $try);} ?>" type="hidden">
               <input name="cidade" id="cidade" maxlength="80" size="50" value="<?php echo getAltPost(@$objPF->objCidade->nome, 'cidade', $try); ?>" type="text" class="txtAUTO" >
@@ -141,7 +141,7 @@ $try = true;
 
        </td>
         </tr>
-        <tr>
+        <tr bgcolor="#f9f9f9">
           <td height="30">E-mail:</td>
           <td><input name="email" id="email" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->email, 'email', $try); ?>" type="text">
             &nbsp;&nbsp;Toca Viol&atilde;o:&nbsp;&nbsp;
@@ -151,7 +151,7 @@ $try = true;
               <option value="N" <?php echo getSelected(getAltPost(@$objPF->alegria_crista, 'violao', $try), 'N'); ?>>NAO</option>
             </select></td>
         </tr>
-        <tr bgcolor="#f9f9f9">
+        <tr>
           <td height="30">Profiss&atilde;o:</td>
           <td><input name="profissao" maxlength="80" size="60" value="<?php echo getAltPost(@$objPF->profissao, 'profissao', $try); ?>" type="text">
             &nbsp;&nbsp;Dirigente de C.E.:&nbsp;
@@ -161,7 +161,7 @@ $try = true;
               <option value="N" <?php echo getSelected(getAltPost(@$objPF->dirigente_centro, 'dirigente', $try), 'N'); ?>>NAO</option>
             </select>          </td>
         </tr>
-         <tr>
+         <tr bgcolor="#f9f9f9">
         <td height="20">Vegetariano:</td>
         <td>
 		  <select name="vegetariano">
@@ -191,23 +191,23 @@ $try = true;
                     <legend><span style="font-weight: bold;">Telefones</span></legend>
                     <table border="0" cellpadding="3" cellspacing="1" width="100%">
                       
-                        <tr>
+                        <tr bgcolor="#f9f9f9">
                           <td width="11%" height="26">DDD</td>
                           <td width="14%"><input name="ddd" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd', $try); ?>" class="txtNumero" type="text" onKeyUp="document.cadastroForm.ddd2.value = this.value; document.cadastroForm.ddd3.value = this.value;" onKeyPress="ehNumerico(this);"></td>
-                          <td width="18%">Residencial: </td>
-                          <td width="57%"><input name="residencial" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telRes, 'residencial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                          <td width="20%">Telefone 1: </td>
+                          <td width="55%"><input name="residencial" maxlength="9" size="12" value="<?php echo getAltPost(@$objPF->telRes, 'residencial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
                         </tr>
                         <tr>
                           <td>DDD</td>
                           <td><input name="ddd3" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd3', $try); ?>" readonly="readonly" class="txtNumeroRO" type="text"></td>
-                          <td>Celular: </td>
-                          <td height="30"><input name="celular" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telCel, 'celular', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                          <td>Telefone 2: </td>
+                          <td height="30"><input name="celular" maxlength="9" size="12" value="<?php echo getAltPost(@$objPF->telCel, 'celular', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
                         </tr>
                         <tr bgcolor="#f9f9f9">
                           <td>DDD</td>
                           <td><input name="ddd2" maxlength="2" size="4" value="<?php echo getAltPost(@$objPF->ddd, 'ddd2', $try); ?>" readonly="readonly" class="txtNumeroRO" type="text"></td>
-                          <td>Comercial: </td>
-                          <td><input name="comercial" maxlength="9" size="10" value="<?php echo getAltPost(@$objPF->telCom, 'comercial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
+                          <td>Telefone 3: </td>
+                          <td><input name="comercial" maxlength="9" size="12" value="<?php echo getAltPost(@$objPF->telCom, 'comercial', $try); ?>" class="txtNumero" type="text" onKeyPress="ehNumerico(this);"></td>
                         </tr>
                       
                     </table>

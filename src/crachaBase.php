@@ -47,7 +47,7 @@
 
 	
 		for ($i = 0; $i < sizeof($objCracha->cursos); $i++) {
-			echo "<tr><td align='center' style='font-size:9px;'>";
+			echo "<tr><td align='center' style='font-size:12px;'>";
 		
 			$objCurso = $objCracha->cursos[$i];
 		

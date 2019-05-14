@@ -3,26 +3,10 @@
 include("headerRel.php");
 
 ?>
-</tr><tr>
+</tr><tr valign="top">
 	<td>
-	<table align="center" width="100%">
-		<tbody><tr>
-		  <td colspan="3" class="labelTitRel" align="center" height="30">
-		  	<?php echo $_SESSION["NOME_EVENTO_SESSION"]; ?>		  </td>
-	    </tr>
-		<tr>
-			<td colspan="4" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">RELA&Ccedil;&Atilde;O  DE PARTICIPANTES POR CURSO</span></td>
-		</tr>
-  <tr>
-  	<td colspan="3" align="center">
-  		<img src="imagens/barra_rel.jpg">  	</td>
-  </tr><tr class="labelColRel" bgcolor="#cccccc">
-			<td height="30" class="labelColRel"><span style="font-weight: bold;">CURSO</span></td>
-			<td height="30" width="30%" class="labelColRel"><span style="font-weight: bold;">NOME</span></td>
-			<td height="30" width="20%" class="labelColRel"><span style="font-weight: bold;">CIDADE</span></td>
-			<td height="30" width="5%" class="labelColRel" align="center"><span style="font-weight: bold;">IDADE (anos)</span></td>
-			<td height="30" width="5%" class="labelColRel" align="center"><span style="font-weight: bold;">Pago</span></td>             
-			</tr>
+	
+  
 <?php 
 		
 		$sql = "select b.evento, b.codigo, b.nome, e.qualif_evento, pf.nome as nome_pf, ((YEAR(x.inicio)-YEAR(pf.data_nasc)) - (RIGHT(x.inicio,5)<RIGHT(pf.data_nasc,5))) as idade, pf.cidade, pf.unidade_da_federacao, c.pago
@@ -74,6 +58,75 @@ include("headerRel.php");
 					 } else {
 						$qualif = "";
 					 }
+					 
+					 if($i > 0){
+					 // completa linhas vazias
+					 for($j = ($totalPartCurso + 1); $j <= 40; $j++){
+					 
+					 $cor = !$cor;
+					
+					if ($cor) {
+						$bgcolor = "#e0e0e0";
+					} else {
+						$bgcolor = "#ffffff";
+					}
+					 
+					 ?>
+					 <tr bgcolor="<?php echo $bgcolor; ?>" >
+						    <td height="20" align="center" style="border-bottom:solid 1px black; border-left:solid 1px black;">&nbsp;<?php echo $j; ?></td>
+							<td height="20" style="border-bottom:solid 1px black; border-left:solid 1px black;">&nbsp;</td>
+							<td height="20" style="border-bottom:solid 1px black; border-left:solid 1px black;">&nbsp;</td>
+							<td height="20" align="center" style="border-bottom:solid 1px black; border-left:solid 1px black;border-right:solid 1px black;">&nbsp;</td>
+						</tr>
+					 <?php
+					 }
+					 }
+					 // imprime rodape
+					 if($i > 0){
+					 ?>
+					 
+					 
+					 <tr bgcolor="#cccccc">
+					<td colspan="4">
+						<table width="100%">
+							<tbody><tr>
+								<td class="labelColRel" align="left" height="5">
+									<!--<span style="font-weight: bold;">TOTAL DE CURSOS: &nbsp; <?php echo $linhas; ?></span>								</td>-->
+								<td class="labelColRel" align="right" height="5">
+									<span style="font-size: 10px;">TOTAL DE PARTICIPANTES INSCRITOS: &nbsp; <?php echo $totalPartCurso; ?></span>								</td>
+							</tr>
+						</tbody></table>					</td>
+				</tr>
+	</tbody></table>
+	
+					<?php
+					}
+					
+					$totalPartCurso = 0;
+					
+					?>
+					 <br/>
+	<table align="center" width="100%" cellspacing="0" style="page-break-before: always;">
+		<tbody><tr>
+		  <td colspan="4" class="labelTitRel" align="center" height="30">
+		  	<?php echo $_SESSION["NOME_EVENTO_SESSION"]; ?>		  </td>
+	    </tr>
+		<tr>
+			<td colspan="4" class="labelTitRel" align="center" height="30"><span style="font-weight: bold;">RELA&Ccedil;&Atilde;O DE PARTICIPANTES CURSO <?php echo $qualif." - ".mysql_result($resultado, $i, "nome"); ?></span></td>
+		</tr>
+  <tr>
+
+  </tr>
+					 
+			<tr class="labelColRel" bgcolor="#cccccc">
+				<td height="20" width="5%" class="labelColRel" align="center" style="border:solid 1px black;"><span style="font-weight: bold;">&nbsp; N&uacute;m.</span></td>
+				<td height="20" width="45%" class="labelColRel" style="border:solid 1px black;"><span style="font-weight: bold;">&nbsp; NOME</span></td>
+				<td height="20" width="25%" class="labelColRel" style="border:solid 1px black;"><span style="font-weight: bold;">&nbsp; CIDADE</span></td>
+				<td height="20" width="25%" class="labelColRel" align="center" style="border:solid 1px black;"><span style="font-weight: bold;">&nbsp; Assinatura</span></td>            
+			</tr>
+					 
+					
+					 <?php
 				}
 				
 				  $cor = !$cor;
@@ -83,36 +136,35 @@ include("headerRel.php");
 					} else {
 						$bgcolor = "#ffffff";
 					}
+					
+					$totalPartCurso++;
 				
 				?>
 					
-						<tr bgcolor="<?php echo $bgcolor; ?>">
-						<td height="30">
-							<b>&nbsp;<?php echo $qualif." - ".mysql_result($resultado, $i, "nome"); ?></b>
-						</td>
-							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "nome_pf"); ?></td>
-							<td height="30">&nbsp;<?php echo mysql_result($resultado, $i, "cidade")." - ".mysql_result($resultado, $i, "unidade_da_federacao"); ?></td>
-							<td height="30" width="50px" align="center">&nbsp;<?php echo mysql_result($resultado, $i, "idade"); ?></td>
-                            							<td height="30" width="50px" align="center">&nbsp;<?php echo mysql_result($resultado, $i, "pago"); ?></td>
+						<tr bgcolor="<?php echo $bgcolor; ?>" >
+						    <td height="20" align="center" style="border-bottom:solid 1px black;border-left:solid 1px black;">&nbsp;<?php echo $totalPartCurso; ?></td>
+							<td height="20" style="border-bottom:solid 1px black;border-left:solid 1px black;">&nbsp;<?php echo mysql_result($resultado, $i, "nome_pf"); ?></td>
+							<td height="20" style="border-bottom:solid 1px black;border-left:solid 1px black;">&nbsp;<?php echo mysql_result($resultado, $i, "cidade")." - ".mysql_result($resultado, $i, "unidade_da_federacao"); ?></td>
+							<td height="20" align="center" style="border-bottom:solid 1px black;border-left:solid 1px black;border-right:solid 1px black;">&nbsp;</td>
 						</tr>
 					<?php
 			}
 		}
 
 ?>
-			
-				<tr bgcolor="#cccccc">
+		<tr bgcolor="#cccccc">
 					<td colspan="4">
 						<table width="100%">
 							<tbody><tr>
 								<td class="labelColRel" align="left" height="5">
 									<!--<span style="font-weight: bold;">TOTAL DE CURSOS: &nbsp; <?php echo $linhas; ?></span>								</td>-->
 								<td class="labelColRel" align="right" height="5">
-									<!--<span style="font-weight: bold;">TOTAL DE PARTICIPANTES EM CURSOS: &nbsp; <?php echo $totalPart; ?></span>-->								</td>
+									<span style="font-size: 10px;">TOTAL DE PARTICIPANTES NO CURSO: &nbsp; <?php echo $totalPartCurso; ?></span>								</td>
 							</tr>
 						</tbody></table>					</td>
 				</tr>
-	</tbody></table>
+	</tbody></table>	
+				
 	
 	
 	</td>
