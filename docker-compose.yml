@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  # Application service layer
+  apache:
+    build: './php'
+    container_name: frontend
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb
+    environment:
+      AMBIENTE: DEV
+    volumes:
+      - "./src:/var/www/"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - mysqldb
+    links: 
+      - mysqldb:db
+    ports:
+      - 8000:80
+    environment:
+      - MYSQL_USER=secretaria_db
+      - MYSQL_PASSWORD=secretaria_db
+      - MYSQL_ROOT_PASSWORD=secretaria_db
+  
+  # Data persistence service layer
+  mysqldb:
+    image: mysql:5.6.40
+    container_name: mysqldb
+    restart: always
+    volumes:
+      - "db_data:/var/lib/mysql"
+      - "./mysql/initial_data:/docker-entrypoint-initdb.d"
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=secretaria_db
+      - MYSQL_DATABASE=secretaria_db
+      - MYSQL_USER=secretaria_db
+      - MYSQL_PASSWORD=secretaria_db
+
+volumes:
+  db_data:
