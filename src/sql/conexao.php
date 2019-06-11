@@ -1,5 +1,5 @@
 <?php
-	if($_ENV["AMBIENTE"]) {
+	if(getenv("AMBIENTE") == DEV) {
 		$user="secretaria_db";
 		$password="secretaria_db";
 		$database="secretaria_db";
