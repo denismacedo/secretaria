@@ -164,7 +164,7 @@
 	function getNull($value) {
 	
 		if (isset($value) && $value != "") {
-			return "'".$value."'";
+			return "'".escapeString($value)."'";
 		} else {
 		
 			return "NULL";
@@ -182,6 +182,17 @@
 		
 		}
 	}
+
+	function escapeString($inp) { 
+		if(is_array($inp)) 
+			return array_map(__METHOD__, $inp); 
+
+		if(!empty($inp) && is_string($inp)) { 
+			return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp); 
+		} 
+
+		return $inp; 
+	} 
 	
 	
 function dateDiff($sDataInicial, $sDataFinal)
@@ -227,7 +238,7 @@ function dateDiffMinutos($sDataInicial, $sDataFinal)
 }
 
 function retiraCaracteresEspeciais($string) {
-	$p = strtr($string, "áàãâéêíóôõúüçÁÀÃÂÉÊÍÓÔÕÚÜÇ", "aaaaeeiooouucAAAAEEIOOOUUC_");
+	$p = strtr($string, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "aaaaeeiooouucAAAAEEIOOOUUC_");
 	$p = strtoupper($p);
 	return $p;
 }
