@@ -43,6 +43,7 @@
 	var options_xml = {
 		script:"doCadastro.php?method=searchNomePFByNome&",
 		varname:"nome",
+		minchars:4,
 		callback: function (obj) { document.getElementById('codigo').value = obj.id; searchPF();}
 	};
 	var as_xml = new AutoSuggest('nome', options_xml);
@@ -50,6 +51,7 @@
 	var options2_xml = {
 		script:"doCadastro.php?method=searchResponsavelByNome&",
 		varname:"nome",
+		minchars:4,
  		callback: function (obj) { 
 			document.getElementById('codResponsavel').value = obj.id; 
 			document.getElementById('responsavelComplemento').value = obj.info;}
@@ -59,6 +61,7 @@
 	var options3_xml = {
 		script:"doCadastro.php?method=searchNomePJByNome&",
 		varname:"nome",
+		minchars:4,
  		callback: function (obj) { 
 			document.getElementById('codOrigem').value = obj.id; 
 			document.getElementById('origemComplemento').value = obj.info;}
@@ -68,6 +71,7 @@
 	var options4_xml = {
 		script:"doCadastro.php?method=searchCidadeByNome&",
 		varname:"nome",
+		minchars:4,
  		callback: function (obj) { 
 			document.getElementById('codCidade').value = obj.id; 
 			document.getElementById('cidadeComplemento').value = obj.info;}
