@@ -33,7 +33,7 @@
         <td colspan="2" class="explicacao" height="20">* Esta tela permite cadastrar/alterar/excluir um centro esp&iacute;rita </td>
         </tr>
       <!--<tr>
-        <td width="119" height="20">Tipo de Pessoa Física: </td>
+        <td width="119" height="20">Tipo de Pessoa Fï¿½sica: </td>
         <td width="570">
         	<select name="tipoPF"><option value="" selected="selected"></option>
 <option value="1">CARAVANEIRO</option>
@@ -143,6 +143,7 @@
 	var options_xml = {
 		script:"doCadastroPJ.php?method=searchNomePJByNome&",
 		varname:"nome",
+		minchars:4,
 		callback: function (obj) { document.getElementById('codigo').value = obj.id; searchPJ();}
 	};
 	var as_xml = new AutoSuggest('nome', options_xml);
@@ -150,6 +151,7 @@
 	var options4_xml = {
 		script:"doCadastro.php?method=searchCidadeByNome&",
 		varname:"nome",
+		minchars: 3,
  		callback: function (obj) { 
 			document.getElementById('codCidade').value = obj.id; 
 			document.getElementById('cidadeComplemento').value = obj.info;}

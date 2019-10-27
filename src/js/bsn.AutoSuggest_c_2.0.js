@@ -190,7 +190,7 @@ _bsn.AutoSuggest.prototype.onKeyUp = function(ev)
 		
 		
 		default:
-			if (this.fld.value.length >= 4)
+			if (this.fld.value.length >= this.oP.minchars)
 				this.getSuggestions(this.fld.value);
 	}
 
@@ -271,7 +271,7 @@ _bsn.AutoSuggest.prototype.getSuggestions = function (val)
 _bsn.AutoSuggest.prototype.doAjaxRequest = function ()
 {
 	
-	if (this.fld.value.length >= 4) {
+	if (this.fld.value.length >= this.oP.minchars) {
 	
 		var pointer = this;
 		

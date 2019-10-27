@@ -26,7 +26,7 @@
         <td colspan="2" class="explicacao" height="20">* Esta tela permite cadastrar/alterar/excluir uma pessoa f&iacute;sica, al&eacute;m de inscrev&ecirc;-la em um evento</td>
         </tr>
       <!--<tr>
-        <td width="119" height="20">Tipo de Pessoa Física: </td>
+        <td width="119" height="20">Tipo de Pessoa Fï¿½sica: </td>
         <td width="570">
         	<select name="tipoPF"><option value="" selected="selected"></option>
 <option value="1">CARAVANEIRO</option>
@@ -102,7 +102,7 @@
 		 <input name="codCidade" id="codCidade" value="<?php if (isset($objPF->objCidade)) { echo @$objPF->objCidade->nome."/".@$objPF->objCidade->unidade_da_federacao."/".@$objPF->objCidade->pais; } else {echo getAltPost('', 'codCidade', $try);} ?>" type="hidden">
           <input name="cidade" id="cidade" maxlength="80" size="50" value="<?php echo getAltPost(@$objPF->objCidade->nome, 'cidade', $try); ?>" type="text" class="txtAUTO" onBlur="clearField(this, 'codCidade'); clearField(this, 'cidadeComplemento');">
 		  <input name="cidadeComplemento" id="cidadeComplemento" readonly="readonly" size="40" value="<?php if (isset($objPF->objCidade)) { echo @$objPF->objCidade->nomeEstado." - ".@$objPF->objCidade->nomePais; } else { getAltPost('', 'cidadeComplemento', $try); } ?>" type="text" style="border: 0px; font-style:italic; color:#666666; background-color:#f9f9f9; font-size:9px;" tabindex="-5">		</td>
-        <!--<td height="20">País:</td>
+        <!--<td height="20">Paï¿½s:</td>
         <td>
         <select name="pais" onchange="submitChangePais();"><option value="" selected="selected"></option>
 <option value="AO">ANGOLA</option>
@@ -206,7 +206,7 @@
 			</tr>
 		</tbody></table>
 		
-           </td>
+          ï¿½</td>
         </tr>
       <tr align="center" bgcolor="#f0f0f0">
         <td colspan="2" height="20">
@@ -235,6 +235,7 @@
 	var options_xml = {
 		script:"doCadastro.php?method=searchNomePFByNome&",
 		varname:"nome",
+		minchars:4,
 		callback: function (obj) { document.getElementById('codigo').value = obj.id; searchPF();}
 	};
 	var as_xml = new AutoSuggest('nome', options_xml);
@@ -242,6 +243,7 @@
 	var options2_xml = {
 		script:"doCadastro.php?method=searchResponsavelByNome&",
 		varname:"nome",
+		minchars:4,
  		callback: function (obj) { 
 			document.getElementById('codResponsavel').value = obj.id; 
 			document.getElementById('responsavelComplemento').value = obj.info;}
@@ -251,6 +253,7 @@
 	var options3_xml = {
 		script:"doCadastro.php?method=searchNomePJByNome&",
 		varname:"nome",
+		minchars:4,
  		callback: function (obj) { 
 			document.getElementById('codOrigem').value = obj.id; 
 			document.getElementById('origemComplemento').value = obj.info;}
@@ -258,8 +261,9 @@
 	var as3_xml = new AutoSuggest('origem', options3_xml);
 	
 	var options4_xml = {
-		script:"doCadastro.php?method=searchCidadeByNome&",
-		varname:"nome",
+		script: "doCadastro.php?method=searchCidadeByNome&",
+		varname: "nome",
+		minchars: 3,
  		callback: function (obj) { 
 			document.getElementById('codCidade').value = obj.id; 
 			document.getElementById('cidadeComplemento').value = obj.info;}
